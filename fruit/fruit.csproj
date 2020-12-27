@@ -7,7 +7,7 @@
     <ProjectGuid>{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>fruit</RootNamespace>
-    <AssemblyName>fruit</AssemblyName>
+    <AssemblyName>Mooncell</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>2.ico</ApplicationIcon>
+    <ApplicationIcon>mooncell.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="2.ico" />
+    <Content Include="moon.ico" />
+    <Content Include="mooncell.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

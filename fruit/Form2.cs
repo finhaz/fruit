@@ -47,7 +47,7 @@ namespace fruit
             {
                 comboBox2.Items.Add(a.ToString());
             }
-            comboBox2.SelectedItem = comboBox2.Items[2];    //默认为列表第二个变量  
+            comboBox2.SelectedItem = comboBox2.Items[3];    //默认为列表第二个变量  
 
             string[] item1 = { "无", "奇校验","偶校验" };    //定义一个Item数组，遍历item中每一个变量a，增加到comboBox2的列表中
             foreach (string a in item1)
