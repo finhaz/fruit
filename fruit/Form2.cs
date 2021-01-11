@@ -20,7 +20,7 @@ namespace fruit
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            /*
             CommonRes.serialPort1.PortName = comboBox1.SelectedItem.ToString();
             CommonRes.serialPort1.BaudRate= Convert.ToInt32(comboBox2.SelectedItem.ToString());
             //CommonRes.serialPort1.Parity = (Parity)Convert.ToInt32(comboBox3.SelectedIndex.ToString());
@@ -35,6 +35,34 @@ namespace fruit
             CommonRes.serialPort1.StopBits = (StopBits)Convert.ToInt32(comboBox5.SelectedItem.ToString());
             
             this.Close();
+            */
+
+            //Form1 f1 = new Form1();这相当于重新生成一个form1
+            Form1 f1 = null;
+            foreach (Form1 f in Application.OpenForms)
+            {
+                if (f.Name == "Form1")
+                {
+                    f1 = f;
+                    break;
+                }
+            }
+
+            f1.Serial_Port = comboBox1.SelectedItem.ToString();
+            f1.Serial_Baud = Convert.ToInt32(comboBox2.SelectedItem.ToString());
+            switch (comboBox3.SelectedItem.ToString())
+            {
+                case "无": f1.Serial_Parity = Parity.None; break;
+                case "奇校验": f1.Serial_Parity = Parity.Even; break;
+                case "偶校验": f1.Serial_Parity = Parity.Odd; break;
+                default: f1.Serial_Parity = Parity.None; break;
+            }
+            f1.Serial_DataBits = Convert.ToInt32(comboBox4.SelectedItem.ToString());
+            f1.Serial_StopBits = (StopBits)Convert.ToInt32(comboBox5.SelectedItem.ToString());
+
+            this.Close();
+
+
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -42,7 +70,7 @@ namespace fruit
             comboBox1.Items.AddRange(SerialPort.GetPortNames());
             comboBox1.SelectedItem = comboBox1.Items[0];
 
-            int[] item = { 2400, 4800, 9600, 115200 };    //定义一个Item数组，遍历item中每一个变量a，增加到comboBox2的列表中
+            int[] item = { 2400, 4800, 9600, 115200, 230400 };    //定义一个Item数组，遍历item中每一个变量a，增加到comboBox2的列表中
             foreach (int a in item)
             {
                 comboBox2.Items.Add(a.ToString());

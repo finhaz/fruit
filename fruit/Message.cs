@@ -7,9 +7,8 @@ using System.IO.Ports;
 
 namespace fruit
 {
-    public static class CommonRes
+    public static class Message
     {
-        public static SerialPort serialPort1 = new SerialPort();
-    }
 
+    }
 }

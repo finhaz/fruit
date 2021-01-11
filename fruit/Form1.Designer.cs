@@ -65,7 +65,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.timer4 = new System.Windows.Forms.Timer(this.components);
+            this.button6 = new System.Windows.Forms.Button();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -100,6 +101,7 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
             this.dataGridView1.Size = new System.Drawing.Size(459, 635);
             this.dataGridView1.TabIndex = 1;
@@ -107,26 +109,31 @@
             // Column1
             // 
             this.Column1.HeaderText = "序号";
+            this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
             // 
             // Column2
             // 
             this.Column2.HeaderText = "名称";
+            this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
             // 
             // Column3
             // 
             this.Column3.HeaderText = "数值";
+            this.Column3.MinimumWidth = 6;
             this.Column3.Name = "Column3";
             // 
             // Column4
             // 
             this.Column4.HeaderText = "单位";
+            this.Column4.MinimumWidth = 6;
             this.Column4.Name = "Column4";
             // 
             // Column5
             // 
             this.Column5.HeaderText = "";
+            this.Column5.MinimumWidth = 6;
             this.Column5.Name = "Column5";
             // 
             // dataGridView2
@@ -143,6 +150,7 @@
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersVisible = false;
+            this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 27;
             this.dataGridView2.Size = new System.Drawing.Size(459, 633);
             this.dataGridView2.TabIndex = 2;
@@ -153,26 +161,31 @@
             // Column6
             // 
             this.Column6.HeaderText = "序号";
+            this.Column6.MinimumWidth = 6;
             this.Column6.Name = "Column6";
             // 
             // Column7
             // 
             this.Column7.HeaderText = "名称";
+            this.Column7.MinimumWidth = 6;
             this.Column7.Name = "Column7";
             // 
             // Column8
             // 
             this.Column8.HeaderText = "数值";
+            this.Column8.MinimumWidth = 6;
             this.Column8.Name = "Column8";
             // 
             // Column9
             // 
             this.Column9.HeaderText = "单位";
+            this.Column9.MinimumWidth = 6;
             this.Column9.Name = "Column9";
             // 
             // Column10
             // 
             this.Column10.HeaderText = "";
+            this.Column10.MinimumWidth = 6;
             this.Column10.Name = "Column10";
             // 
             // dataGridView3
@@ -189,6 +202,7 @@
             this.dataGridView3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersVisible = false;
+            this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowTemplate.Height = 27;
             this.dataGridView3.Size = new System.Drawing.Size(459, 642);
             this.dataGridView3.TabIndex = 3;
@@ -199,26 +213,31 @@
             // Column11
             // 
             this.Column11.HeaderText = "序号";
+            this.Column11.MinimumWidth = 6;
             this.Column11.Name = "Column11";
             // 
             // Column12
             // 
             this.Column12.HeaderText = "名称";
+            this.Column12.MinimumWidth = 6;
             this.Column12.Name = "Column12";
             // 
             // Column13
             // 
             this.Column13.HeaderText = "数值";
+            this.Column13.MinimumWidth = 6;
             this.Column13.Name = "Column13";
             // 
             // Column14
             // 
             this.Column14.HeaderText = "";
+            this.Column14.MinimumWidth = 6;
             this.Column14.Name = "Column14";
             // 
             // Column15
             // 
             this.Column15.HeaderText = "";
+            this.Column15.MinimumWidth = 6;
             this.Column15.Name = "Column15";
             // 
             // button2
@@ -351,7 +370,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(39, 21);
             this.textBox2.TabIndex = 11;
-            this.textBox2.Text = "20";
+            this.textBox2.Text = "100";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
@@ -380,17 +399,27 @@
             this.timer3.Interval = 15;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
-            // timer4
+            // button6
             // 
-            this.timer4.Enabled = true;
-            this.timer4.Interval = 4;
-            this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
+            this.button6.Location = new System.Drawing.Point(136, 263);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(47, 37);
+            this.button6.TabIndex = 14;
+            this.button6.Text = "PSO";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(658, 705);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
@@ -457,7 +486,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer3;
-        private System.Windows.Forms.Timer timer4;
+        private System.Windows.Forms.Button button6;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }
 
