@@ -20,25 +20,10 @@ namespace fruit
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*
-            CommonRes.serialPort1.PortName = comboBox1.SelectedItem.ToString();
-            CommonRes.serialPort1.BaudRate= Convert.ToInt32(comboBox2.SelectedItem.ToString());
-            //CommonRes.serialPort1.Parity = (Parity)Convert.ToInt32(comboBox3.SelectedIndex.ToString());
-            switch (comboBox3.SelectedItem.ToString())
-            {
-                case "无": CommonRes.serialPort1.Parity = Parity.None; break;
-                case "奇校验": CommonRes.serialPort1.Parity = Parity.Even; break;
-                case "偶校验": CommonRes.serialPort1.Parity = Parity.Odd; break;
-                default: CommonRes.serialPort1.Parity = Parity.None; break;
-            }
-            CommonRes.serialPort1.DataBits = Convert.ToInt32(comboBox4.SelectedItem.ToString());
-            CommonRes.serialPort1.StopBits = (StopBits)Convert.ToInt32(comboBox5.SelectedItem.ToString());
-            
-            this.Close();
-            */
 
             //Form1 f1 = new Form1();这相当于重新生成一个form1
             Form1 f1 = null;
+            Parity Ser_Parity;
             foreach (Form1 f in Application.OpenForms)
             {
                 if (f.Name == "Form1")
@@ -50,13 +35,15 @@ namespace fruit
 
             f1.Serial_Port = comboBox1.SelectedItem.ToString();
             f1.Serial_Baud = Convert.ToInt32(comboBox2.SelectedItem.ToString());
+            
             switch (comboBox3.SelectedItem.ToString())
             {
-                case "无": f1.Serial_Parity = Parity.None; break;
-                case "奇校验": f1.Serial_Parity = Parity.Even; break;
-                case "偶校验": f1.Serial_Parity = Parity.Odd; break;
-                default: f1.Serial_Parity = Parity.None; break;
+                case "无": Ser_Parity = Parity.None; break;
+                case "奇校验": Ser_Parity = Parity.Even; break;
+                case "偶校验": Ser_Parity = Parity.Odd; break;
+                default: Ser_Parity = Parity.None; break;
             }
+            f1.Serial_Parity = Ser_Parity;
             f1.Serial_DataBits = Convert.ToInt32(comboBox4.SelectedItem.ToString());
             f1.Serial_StopBits = (StopBits)Convert.ToInt32(comboBox5.SelectedItem.ToString());
 
@@ -75,7 +62,7 @@ namespace fruit
             {
                 comboBox2.Items.Add(a.ToString());
             }
-            comboBox2.SelectedItem = comboBox2.Items[3];    //默认为列表第二个变量  
+            comboBox2.SelectedItem = comboBox2.Items[2];    //默认为列表第二个变量  
 
             string[] item1 = { "无", "奇校验","偶校验" };    //定义一个Item数组，遍历item中每一个变量a，增加到comboBox2的列表中
             foreach (string a in item1)

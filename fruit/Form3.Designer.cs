@@ -74,7 +74,7 @@ namespace fruit
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(457, 26);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(159, 29);
             this.button1.TabIndex = 0;
@@ -85,7 +85,7 @@ namespace fruit
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(183, 115);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(132, 25);
             this.textBox1.TabIndex = 1;
@@ -93,7 +93,7 @@ namespace fruit
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(183, 173);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(132, 25);
             this.textBox2.TabIndex = 2;
@@ -101,7 +101,7 @@ namespace fruit
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(183, 229);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(132, 25);
             this.textBox3.TabIndex = 3;
@@ -109,7 +109,7 @@ namespace fruit
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(183, 282);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(132, 25);
             this.textBox4.TabIndex = 4;
@@ -117,7 +117,7 @@ namespace fruit
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(183, 333);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(132, 25);
             this.textBox5.TabIndex = 5;
@@ -125,7 +125,7 @@ namespace fruit
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(183, 383);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(4);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(132, 25);
             this.textBox6.TabIndex = 6;
@@ -133,7 +133,7 @@ namespace fruit
             // textBox7
             // 
             this.textBox7.Location = new System.Drawing.Point(183, 435);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(4);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(132, 25);
             this.textBox7.TabIndex = 7;
@@ -141,7 +141,7 @@ namespace fruit
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(484, 115);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(4);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(132, 25);
             this.textBox8.TabIndex = 8;
@@ -149,7 +149,7 @@ namespace fruit
             // textBox9
             // 
             this.textBox9.Location = new System.Drawing.Point(484, 173);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(132, 25);
             this.textBox9.TabIndex = 9;
@@ -157,7 +157,7 @@ namespace fruit
             // textBox10
             // 
             this.textBox10.Location = new System.Drawing.Point(484, 229);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(132, 25);
             this.textBox10.TabIndex = 10;
@@ -165,7 +165,7 @@ namespace fruit
             // textBox11
             // 
             this.textBox11.Location = new System.Drawing.Point(484, 282);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(132, 25);
             this.textBox11.TabIndex = 11;
@@ -173,7 +173,7 @@ namespace fruit
             // textBox12
             // 
             this.textBox12.Location = new System.Drawing.Point(484, 333);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(4);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(132, 25);
             this.textBox12.TabIndex = 12;
@@ -181,7 +181,7 @@ namespace fruit
             // textBox13
             // 
             this.textBox13.Location = new System.Drawing.Point(484, 383);
-            this.textBox13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(4);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(132, 25);
             this.textBox13.TabIndex = 13;
@@ -189,7 +189,7 @@ namespace fruit
             // textBox14
             // 
             this.textBox14.Location = new System.Drawing.Point(484, 435);
-            this.textBox14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox14.Margin = new System.Windows.Forms.Padding(4);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(132, 25);
             this.textBox14.TabIndex = 14;
@@ -197,7 +197,7 @@ namespace fruit
             // textBox15
             // 
             this.textBox15.Location = new System.Drawing.Point(800, 115);
-            this.textBox15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox15.Margin = new System.Windows.Forms.Padding(4);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(132, 25);
             this.textBox15.TabIndex = 15;
@@ -205,7 +205,7 @@ namespace fruit
             // textBox16
             // 
             this.textBox16.Location = new System.Drawing.Point(800, 173);
-            this.textBox16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(132, 25);
             this.textBox16.TabIndex = 16;
@@ -213,7 +213,7 @@ namespace fruit
             // textBox17
             // 
             this.textBox17.Location = new System.Drawing.Point(800, 229);
-            this.textBox17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox17.Margin = new System.Windows.Forms.Padding(4);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(132, 25);
             this.textBox17.TabIndex = 17;
@@ -221,7 +221,7 @@ namespace fruit
             // textBox18
             // 
             this.textBox18.Location = new System.Drawing.Point(800, 282);
-            this.textBox18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox18.Margin = new System.Windows.Forms.Padding(4);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(132, 25);
             this.textBox18.TabIndex = 18;
@@ -359,7 +359,7 @@ namespace fruit
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(31, 15);
             this.label15.TabIndex = 33;
-            this.label15.Text = "Vd1";
+            this.label15.Text = "Ug1";
             // 
             // label16
             // 
@@ -368,7 +368,7 @@ namespace fruit
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(31, 15);
             this.label16.TabIndex = 34;
-            this.label16.Text = "Vq1";
+            this.label16.Text = "Ug2";
             // 
             // label17
             // 
@@ -377,7 +377,7 @@ namespace fruit
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(31, 15);
             this.label17.TabIndex = 35;
-            this.label17.Text = "Vd2";
+            this.label17.Text = "Ug3";
             // 
             // label18
             // 
@@ -386,7 +386,7 @@ namespace fruit
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(31, 15);
             this.label18.TabIndex = 36;
-            this.label18.Text = "Vq2";
+            this.label18.Text = "Ug4";
             // 
             // label19
             // 
@@ -460,7 +460,7 @@ namespace fruit
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form3";
             this.Text = "Form3";
             this.ResumeLayout(false);

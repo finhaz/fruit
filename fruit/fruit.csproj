@@ -48,7 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI_PSO.cs" />
+    <Compile Include="Fish_AI.cs" />
+    <Compile Include="IPSO_AI.cs" />
+    <Compile Include="PSO_AI.cs" />
+    <Compile Include="Database.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
