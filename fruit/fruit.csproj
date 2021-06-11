@@ -7,7 +7,7 @@
     <ProjectGuid>{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>fruit</RootNamespace>
-    <AssemblyName>Mooncell</AssemblyName>
+    <AssemblyName>Cell</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
