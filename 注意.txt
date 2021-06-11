@@ -1,2 +1,0 @@
-﻿生成的程序在Moon_PSO\fruit\obj\debug文件夹下
-延缓通讯不准确的方法是timer3的间隔时间改长，不用1ms一下
