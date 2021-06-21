@@ -48,6 +48,8 @@ namespace fruit
             model.NoticeHandler += new PropertyNoticeHandler(PropertyNoticeHandler);
             Binding bind2 = new Binding("Text", model, "Name");
             richTextBox1.DataBindings.Add(bind2);
+
+            //基本存储、参数设置初始化
             try
             {
                 DB_Com.DataBase_PARAMETER_RUN_Init();
@@ -104,16 +106,26 @@ namespace fruit
                     this.dataGridView3.Rows[index].Cells[1].Value = DB_Com.data[i].NAME;
                     this.dataGridView3.Rows[index].Cells[2].Value = DB_Com.data[i].VALUE;
                 }
+
+
                 DB_Com.DataBase_ERROR_Table_Init();
 
+            }
+            catch
+            {
+                MessageBox.Show("缺少MOON.mdb");
+            }
+
+            //数据存储初始化
+            try
+            {
                 DB_Com.DataBase_PRUN_create();
 
                 DB_Com.DataBase_UG_create();
             }
-
             catch
             {
-                MessageBox.Show("缺少MOON.mdb");
+                MessageBox.Show("缺少fruit.mdb");
             }
 
             try
