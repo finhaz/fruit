@@ -19,24 +19,30 @@ namespace fruit
         bool brun = false;
         bool bshow =false;
         bool bmodify = false;
-        bool Initialized = false;
+        bool Initialized = true;//调试参数与修正系数核验标志位
+        bool flag_uncon = false;//上下参数不一致标志位
+        bool flag_get_runvalue=false;//读取运行数据标志位
+
+        public bool flag_under_first = false;
+        public bool flag_upper_first = false;
+
         bool sopen=false;
         float old_value;
         float new_value;
-        int sn;
-        int sn1;       
+        public int sn=0; 
         int mrow;       
         int Num_time = 0;
         int Num_DSP=0;       
         static int Set_Num_DSP = 2;//代表有机子数
 
+        
         Form3 f3 = new Form3();
         private TestBind model = new TestBind();
         PSO_analysis PSO_v = new PSO_analysis();
         IPSO_analysis IPSO_v = new IPSO_analysis();
         Fish_Solution Fish_v = new Fish_Solution();
         Message NYS_com= new Message();
-        DataBase_Interface DB_Com=new DataBase_Interface();
+        DataBase_Interface DB_Com = new DataBase_Interface();
 
         public Form1()
         {
@@ -203,7 +209,7 @@ namespace fruit
             Thread.Sleep(10);
             //该事件函数在新的线程执行
             //没使用数据绑定前，此代码不可注释
-            //Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;
             //throw new NotImplementedException();
             
             byte[] buffer = new byte[80];
@@ -279,11 +285,51 @@ namespace fruit
             }
             else if (check_result == 2)
             {
-                DB_Com.data[buffer[5]].VALUE = BitConverter.ToSingle(buffer, 8);
+                float temp_val;
+                temp_val = BitConverter.ToSingle(buffer, 8);
 
                 if (DB_Com.data[buffer[5]].SN == buffer[5])
                 {
-                    dataGridView1.Rows[DB_Com.data[buffer[5]].SN].Cells[2].Value = DB_Com.data[buffer[5]].VALUE;
+                    if (buffer[5] < 44)
+                    {
+                        DB_Com.data[buffer[5]].VALUE = temp_val;
+                        dataGridView1.Rows[DB_Com.data[buffer[5]].SN].Cells[2].Value = DB_Com.data[buffer[5]].VALUE;
+                    }
+                    else
+                    {
+                        float ovla;
+                        int vindex;
+                        if (buffer[5] < 90)
+                        {
+                            vindex = DB_Com.data[buffer[5]].SN - 44;
+                            ovla = Convert.ToSingle(dataGridView2.Rows[vindex].Cells[2].Value);
+                        }
+                        else
+                        {
+                            vindex = DB_Com.data[buffer[5]].SN - 90;
+                            ovla = Convert.ToSingle(dataGridView3.Rows[vindex].Cells[2].Value);
+                        }
+                        if (temp_val != ovla)
+                        {
+                            if (flag_under_first == false)
+                            {
+                                flag_uncon = true;//说明出现上下参数不一致
+                            }
+                            else
+                            {
+                                if (buffer[5] < 90)
+                                {
+                                    dataGridView2.Rows[vindex].Cells[2].Value = temp_val;
+                                    DB_Com.DataBase_SET_Save("PARAMETER_SET", temp_val, (byte)buffer[5]);
+                                }
+                                else
+                                {
+                                    dataGridView3.Rows[vindex].Cells[2].Value = temp_val;
+                                    DB_Com.DataBase_SET_Save("PARAMETER_FACTOR", temp_val, (byte)buffer[5]);
+                                }
+                            }
+                        }
+                    }
                 }
                 DB_Com.data[buffer[5]].ACK = buffer[7];
 
@@ -406,14 +452,17 @@ namespace fruit
         {
             if (serialPort1.IsOpen)
             {
-                //timer1.Enabled = true;
-                button3.Enabled = false;
-                //bshow = true;
+                Initialized = false;
+                flag_uncon = false;
+                sn = 44;
+                flag_get_runvalue = false;
+                button5.Text = "数据采集";
+                timer1.Enabled = true;
             }
             else
             {
                 MessageBox.Show("串口未打开");
-                //timer1.Enabled = false;
+                
             }
         }
 
@@ -475,11 +524,11 @@ namespace fruit
         {
             if(brun)
             { 
-                MessageBox.Show("徐师姐厉害"); 
+                MessageBox.Show("厉害"); 
             }
             else
             {
-                MessageBox.Show("花钱才能看到源代码");
+                MessageBox.Show("如果不会JAVA的衍生语种，本程序可能就会被理解错误");
             }
             
             return;
@@ -491,55 +540,84 @@ namespace fruit
         {
             if (serialPort1.IsOpen)
             {
-                if (!Initialized)
+
+                if (flag_uncon == true && Initialized == false )//比对上下设置参数和修正系数是否一致
                 {
-                    Initialized = true;//若需要启用初始化检测，应注释这句话
-                    if (sn > 43)
-                    {
-                        NYS_com.MakeCommand(sn, 0, DB_Com.data[sn].VALUE);
-                    }
-                    if (DB_Com.data[sn].ACK == -2)
-                        DB_Com.data[sn].ACK = -1;
-                    else if (DB_Com.data[sn].ACK == -1)
-                    {
-                        DB_Com.data[sn].ACK = 0;
-                        sn++;
-                    }
-                    else
-                        sn++;
+                    Initialized = true;
+
+                    Form4 f4 = new Form4(this);
+                    f4.Show();
+                    this.Hide();
+                }
+
+                if (!Initialized)//比对未完成
+                {
+                    NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
+                    sn = sn + 1;
+                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
 
                     if (sn == 118)
                     {
                         sn = 0;
                         Initialized = true;
-                        MessageBox.Show("参数初始化完成！！");
-                    }
-                }
-                else
-                {
-                    if (sn1 > -1)
-                    {
-                        NYS_com.Monitor_Initial(sn1, DB_Com.data[sn1].VALUE);
-                        sn1 = -1;
+                        MessageBox.Show("参数一致");
                     }
 
-                    else
+                    
+                }
+
+                if(flag_get_runvalue==true)
+                {
+                    if (sn == DB_Com.runnum)
                     {
-                        NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
+                        sn = 0;
+
+                        DB_Com.DataBase_RUN_Save();
+                    }
+
+                    NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
+                    sn = sn + 1;
+
+                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+                }
+
+                if(flag_under_first==true)
+                {
+                    if (sn < 118)
+                    {
+                        NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
                         sn = sn + 1;
                     }
+                    else
+                    {
+                        flag_under_first = false;
+                        MessageBox.Show("参数初始化完成！！");
+                    }
+
+                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
                 }
 
-
-                serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
-
-                if (sn == DB_Com.runnum)
+                if (flag_upper_first == true)
                 {
-                    sn = 0;
-
-                    DB_Com.DataBase_RUN_Save();
+                    if(sn<118)
+                    {
+                        NYS_com.Monitor_Set((byte)sn, (byte)DB_Com.data[sn].COMMAND,DB_Com.data[sn].VALUE);
+                        sn = sn + 1;
+                    }
+                    else
+                    {
+                        flag_upper_first = false;
+                        MessageBox.Show("参数初始化完成！！");
+                    }
+                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
                 }
+
+
+
+                
+
+
+
                
             }
         }
@@ -724,13 +802,15 @@ namespace fruit
             bshow = !bshow;
             if(bshow)
             {
-                timer1.Enabled = true;
+                flag_get_runvalue = true;
                 button5.Text = "停止采集";
+                sn = 0;
             }
             else
             {
-                timer1.Enabled = false;
+                flag_get_runvalue = false;
                 button5.Text = "数据采集";
+                sn = 0;
             }
         }
 

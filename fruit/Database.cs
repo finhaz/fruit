@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace fruit
 {
-    struct Data_r
+    public struct Data_r
     {
         public int SN, COMMAND, LENG, NO, TYP, ACK;
         public float VALUE, FACTOR;
         public string NAME, UNITor;
     }
-    class DataBase_Interface
+    public class DataBase_Interface
     {
         public Data_r[] data = new Data_r[200];
         public int u = 0;
