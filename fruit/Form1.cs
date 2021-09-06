@@ -705,7 +705,7 @@ namespace fruit
                         tempsn = Convert.ToByte(dataGridView2.Rows[e.RowIndex].Cells[0].Value);
                         NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
                         serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
+                        DB_Com.data[tempsn].VALUE = new_v;
                         DB_Com.DataBase_SET_Save("PARAMETER_SET", i, tempsn);
 
                         //Column10.DefaultCellStyle.NullValue = "";
@@ -787,7 +787,7 @@ namespace fruit
                         tempsn = Convert.ToByte(dataGridView3.Rows[e.RowIndex].Cells[0].Value);
                         NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
                         serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
+                        DB_Com.data[tempsn].VALUE = i;
                         DB_Com.DataBase_SET_Save("PARAMETER_FACTOR",i,tempsn);
 
                         dataGridView3.Rows[e.RowIndex].Cells[4].Value = "";
