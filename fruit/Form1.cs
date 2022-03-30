@@ -42,6 +42,7 @@ namespace fruit
         IPSO_analysis IPSO_v = new IPSO_analysis();
         Fish_Solution Fish_v = new Fish_Solution();
         Message NYS_com= new Message();
+        Message_modbus FCOM2= new Message_modbus();
         DataBase_Interface DB_Com = new DataBase_Interface();
 
         public Form1()
@@ -494,8 +495,10 @@ namespace fruit
                 timer3.Enabled = false;
             }
 
-            NYS_com.Monitor_Run(brun);
-            serialPort1.Write(NYS_com.sendbf, 0, 10);
+            //NYS_com.Monitor_Run(brun);
+            //serialPort1.Write(NYS_com.sendbf, 0, 10);
+            FCOM2.Monitor_Run(brun);
+            serialPort1.Write(FCOM2.sendbf, 0, 9);
 
             for (int i = 0; i < 10; i++)
             {
