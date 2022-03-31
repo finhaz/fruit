@@ -207,7 +207,7 @@ namespace fruit
 
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Thread.Sleep(10);
+            Thread.Sleep(50);
             //该事件函数在新的线程执行
             //没使用数据绑定前，此代码不可注释
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -220,6 +220,8 @@ namespace fruit
             string str = "";
             int n_dsp = 0;
             int check_result=0;
+
+
 
             try
             {
@@ -239,101 +241,127 @@ namespace fruit
             model.Name += str;
 
 
-            if (j < buffer[4] + 5) //数据区尚未接收完整
+            //if (j < buffer[4] + 5) //数据区尚未接收完整
+            //{
+            //    return;
+            //}
+
+            //check_result=NYS_com.monitor_check(buffer);
+
+            //if (check_result == 1)
+            //{
+            //    n_dsp = buffer[7];
+            //    for (int i_k = 0; i_k < 9; i_k++)//字节重新拼接为浮点数
+            //    {
+            //        //PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
+
+            //        IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
+
+            //        //Fish_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
+
+
+            //    }
+            //    if (n_dsp == Set_Num_DSP)
+            //    {
+            //        /*
+            //        Thread th = new Thread(new ThreadStart(PSO_v.cale_pso)); //创建PSO线程
+            //        th.Start(); //启动线程                          
+            //        Thread th1 = new Thread(new ThreadStart(update_UI_PSO)); //创建UI线程
+            //        th1.Start(); //启动线程
+            //        */
+
+
+            //        Thread th = new Thread(new ThreadStart(IPSO_v.cale_pso)); //创建IPSO线程
+            //        th.Start(); //启动线程                          
+            //        Thread th1 = new Thread(new ThreadStart(update_UI_IPSO)); //创建UI线程
+            //        th1.Start(); //启动线程
+
+
+            //        /*
+            //        Thread th = new Thread(new ThreadStart(Fish_v.cale_fish)); //创建FISH线程
+            //        th.Start(); //启动线程                          
+            //        Thread th1 = new Thread(new ThreadStart(update_UI_FishAI)); //创建UI线程
+            //        th1.Start(); //启动线程
+            //        */
+
+            //    }
+            //}
+            //else if (check_result == 2)
+            //{
+            //    float temp_val;
+            //    temp_val = BitConverter.ToSingle(buffer, 8);
+
+            //    if (DB_Com.data[buffer[5]].SN == buffer[5])
+            //    {
+            //        if (buffer[5] < 44)
+            //        {
+            //            DB_Com.data[buffer[5]].VALUE = temp_val;
+            //            dataGridView1.Rows[DB_Com.data[buffer[5]].SN].Cells[2].Value = DB_Com.data[buffer[5]].VALUE;
+            //        }
+            //        else
+            //        {
+            //            float ovla;
+            //            int vindex;
+            //            if (buffer[5] < 90)
+            //            {
+            //                vindex = DB_Com.data[buffer[5]].SN - 44;
+            //                ovla = Convert.ToSingle(dataGridView2.Rows[vindex].Cells[2].Value);
+            //            }
+            //            else
+            //            {
+            //                vindex = DB_Com.data[buffer[5]].SN - 90;
+            //                ovla = Convert.ToSingle(dataGridView3.Rows[vindex].Cells[2].Value);
+            //            }
+            //            if (temp_val != ovla)
+            //            {
+            //                if (flag_under_first == false)
+            //                {
+            //                    flag_uncon = true;//说明出现上下参数不一致
+            //                }
+            //                else
+            //                {
+            //                    if (buffer[5] < 90)
+            //                    {
+            //                        dataGridView2.Rows[vindex].Cells[2].Value = temp_val;
+            //                        DB_Com.DataBase_SET_Save("PARAMETER_SET", temp_val, (byte)buffer[5]);
+            //                    }
+            //                    else
+            //                    {
+            //                        dataGridView3.Rows[vindex].Cells[2].Value = temp_val;
+            //                        DB_Com.DataBase_SET_Save("PARAMETER_FACTOR", temp_val, (byte)buffer[5]);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //    DB_Com.data[buffer[5]].ACK = buffer[7];
+
+            //}
+
+
+            check_result = FCOM2.monitor_check(buffer,j);
+
+            if(check_result == 1)
             {
-                return;
-            }
-
-            check_result=NYS_com.monitor_check(buffer);
-
-            if (check_result == 1)
-            {
-                n_dsp = buffer[7];
-                for (int i_k = 0; i_k < 9; i_k++)//字节重新拼接为浮点数
+                switch (buffer[1])
                 {
-                    //PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-                    IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-                    //Fish_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-
-                }
-                if (n_dsp == Set_Num_DSP)
-                {
-                    /*
-                    Thread th = new Thread(new ThreadStart(PSO_v.cale_pso)); //创建PSO线程
-                    th.Start(); //启动线程                          
-                    Thread th1 = new Thread(new ThreadStart(update_UI_PSO)); //创建UI线程
-                    th1.Start(); //启动线程
-                    */
-
-                    
-                    Thread th = new Thread(new ThreadStart(IPSO_v.cale_pso)); //创建IPSO线程
-                    th.Start(); //启动线程                          
-                    Thread th1 = new Thread(new ThreadStart(update_UI_IPSO)); //创建UI线程
-                    th1.Start(); //启动线程
-                    
-
-                    /*
-                    Thread th = new Thread(new ThreadStart(Fish_v.cale_fish)); //创建FISH线程
-                    th.Start(); //启动线程                          
-                    Thread th1 = new Thread(new ThreadStart(update_UI_FishAI)); //创建UI线程
-                    th1.Start(); //启动线程
-                    */
-
-                }
-            }
-            else if (check_result == 2)
-            {
-                float temp_val;
-                temp_val = BitConverter.ToSingle(buffer, 8);
-
-                if (DB_Com.data[buffer[5]].SN == buffer[5])
-                {
-                    if (buffer[5] < 44)
-                    {
-                        DB_Com.data[buffer[5]].VALUE = temp_val;
-                        dataGridView1.Rows[DB_Com.data[buffer[5]].SN].Cells[2].Value = DB_Com.data[buffer[5]].VALUE;
-                    }
-                    else
-                    {
-                        float ovla;
-                        int vindex;
-                        if (buffer[5] < 90)
+                    case 3:
+                        Int16 temp_val;
+                        int sn;
+                        byte []temp_i=new byte[2];
+                        for (i = 3; i < buffer[2] + 3; i = i + 2)
                         {
-                            vindex = DB_Com.data[buffer[5]].SN - 44;
-                            ovla = Convert.ToSingle(dataGridView2.Rows[vindex].Cells[2].Value);
+                            temp_i[1]=buffer[i];
+                            temp_i[0]=buffer[i+1];
+                            temp_val = BitConverter.ToInt16(temp_i, 0);
+                            sn = (i - 3) / 2;
+                            DB_Com.data[sn].VALUE = temp_val;
+                            dataGridView1.Rows[sn].Cells[2].Value = DB_Com.data[sn].VALUE;
                         }
-                        else
-                        {
-                            vindex = DB_Com.data[buffer[5]].SN - 90;
-                            ovla = Convert.ToSingle(dataGridView3.Rows[vindex].Cells[2].Value);
-                        }
-                        if (temp_val != ovla)
-                        {
-                            if (flag_under_first == false)
-                            {
-                                flag_uncon = true;//说明出现上下参数不一致
-                            }
-                            else
-                            {
-                                if (buffer[5] < 90)
-                                {
-                                    dataGridView2.Rows[vindex].Cells[2].Value = temp_val;
-                                    DB_Com.DataBase_SET_Save("PARAMETER_SET", temp_val, (byte)buffer[5]);
-                                }
-                                else
-                                {
-                                    dataGridView3.Rows[vindex].Cells[2].Value = temp_val;
-                                    DB_Com.DataBase_SET_Save("PARAMETER_FACTOR", temp_val, (byte)buffer[5]);
-                                }
-                            }
-                        }
-                    }
+                        break;
+                    default:
+                        break;
                 }
-                DB_Com.data[buffer[5]].ACK = buffer[7];
-
             }
 
         }
@@ -495,10 +523,15 @@ namespace fruit
                 timer3.Enabled = false;
             }
 
+            //nys协议
             //NYS_com.Monitor_Run(brun);
             //serialPort1.Write(NYS_com.sendbf, 0, 10);
-            FCOM2.Monitor_Run(brun);
-            serialPort1.Write(FCOM2.sendbf, 0, 9);
+
+            //modbus
+            //1号机1通道
+            FCOM2.Monitor_Run(1,128,brun);
+
+            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0]+1);
 
             for (int i = 0; i < 10; i++)
             {
@@ -555,6 +588,7 @@ namespace fruit
 
                 if (!Initialized)//比对未完成
                 {
+                    
                     NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
                     sn = sn + 1;
                     serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
@@ -566,11 +600,12 @@ namespace fruit
                         MessageBox.Show("参数一致");
                     }
 
-                    
+
                 }
 
                 if(flag_get_runvalue==true)
                 {
+                    /*
                     if (sn == DB_Com.runnum)
                     {
                         sn = 0;
@@ -579,9 +614,21 @@ namespace fruit
                     }
 
                     NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
-                    sn = sn + 1;
 
                     serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                    sn = sn + 1;
+                    
+                    */
+
+                    DB_Com.DataBase_RUN_Save();
+
+                    FCOM2.Monitor_Get_03(0,10);
+
+                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+
+                    
+
                 }
 
                 if(flag_under_first==true)
@@ -706,8 +753,13 @@ namespace fruit
 
                         new_v = i = Convert.ToSingle(dataGridView2.Rows[e.RowIndex].Cells[2].Value);
                         tempsn = Convert.ToByte(dataGridView2.Rows[e.RowIndex].Cells[0].Value);
-                        NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
-                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                        //NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
+                        //serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                        FCOM2.Monitor_Set_06(tempsn, i);
+                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+
                         DB_Com.data[tempsn].VALUE = new_v;
                         DB_Com.DataBase_SET_Save("PARAMETER_SET", i, tempsn);
 
