@@ -588,7 +588,7 @@ namespace fruit
 
                 if (!Initialized)//比对未完成
                 {
-                    
+                    /*
                     NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
                     sn = sn + 1;
                     serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
@@ -599,6 +599,10 @@ namespace fruit
                         Initialized = true;
                         MessageBox.Show("参数一致");
                     }
+                    */
+                    FCOM2.Monitor_Get_03(44, 50);
+
+                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
 
 
                 }
@@ -635,7 +639,8 @@ namespace fruit
                 {
                     if (sn < 118)
                     {
-                        NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
+                        //NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
+                        FCOM2.Monitor_Set_06(sn, DB_Com.data[0].VALUE);
                         sn = sn + 1;
                     }
                     else
