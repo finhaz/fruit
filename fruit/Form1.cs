@@ -45,6 +45,9 @@ namespace fruit
         Message_modbus FCOM2= new Message_modbus();
         DataBase_Interface DB_Com = new DataBase_Interface();
 
+        //针对数据协议：head + len + playload + check 类型
+        private List<byte> gbuffer = new List<byte>(4096);
+
         public Form1()
         {
             InitializeComponent();
@@ -207,13 +210,13 @@ namespace fruit
 
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Thread.Sleep(50);
+            Thread.Sleep(80);
             //该事件函数在新的线程执行
             //没使用数据绑定前，此代码不可注释
             Control.CheckForIllegalCrossThreadCalls = false;
             //throw new NotImplementedException();
             
-            byte[] buffer = new byte[80];
+            byte[] buffer = new byte[200];
             int i = 0;
             int j = 0;
             
@@ -338,6 +341,7 @@ namespace fruit
 
             //}
 
+            //gbuffer.Add(buffer);
 
             check_result = FCOM2.monitor_check(buffer,j);
 
