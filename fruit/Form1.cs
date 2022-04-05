@@ -398,9 +398,15 @@ namespace fruit
                             buffer[j+2] = gbuffer[(temp+j+1)%gbuffer.Length];
                         }                       
                     }
-                    else if (gbuffer[temp] == 0x01 || gbuffer[temp] == 0x05 || gbuffer[temp] == 0x06 || gbuffer[temp] == 0x10)
+                    else if (gbuffer[temp] == 0x06|| gbuffer[temp] == 0x10)
                     {
-
+                        buffer[0] = 0x01;
+                        buffer[1] = gbuffer[temp];
+                        int j;
+                        for (j = 0; j < 6; j++)
+                        {
+                            buffer[j + 2] = gbuffer[(temp + j + 1) % gbuffer.Length];
+                        }
                     }
                     check_result = FCOM2.monitor_check(buffer, buffer.Length);
                     break;
@@ -415,7 +421,7 @@ namespace fruit
                 
                 switch (buffer[1])
                 {
-                    case 3:
+                    case 0x03:
                         Int16 temp_val;
                         int snrun;
                         byte[] temp_i = new byte[2];
@@ -448,6 +454,12 @@ namespace fruit
                                 }
                             }
                         }
+                        break;
+                    case 0x06:
+                        get_index = get_index + 8;
+                        break;
+                    case 0x10:
+                        get_index = get_index + 8;
                         break;
                     default:
                         break;
