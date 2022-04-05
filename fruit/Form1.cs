@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 using System.IO.Ports;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace fruit
 {
@@ -45,8 +46,30 @@ namespace fruit
         Message_modbus FCOM2= new Message_modbus();
         DataBase_Interface DB_Com = new DataBase_Interface();
 
-        //针对数据协议：head + len + playload + check 类型
-        private List<byte> gbuffer = new List<byte>(4096);
+        //针对数据协议：
+        byte[] gbuffer = new byte[4096];
+        int gb_index = 0;//缓冲区注入位置
+        int get_index = 0;// 缓冲区捕捉位置
+
+        /// <summary>
+        /// 保持读取开关
+        /// </summary>
+        bool _keepReading=false;
+
+        /// <summary>
+        /// 检测频率【检测等待时间，毫秒】【按行读取，可以不用】
+        /// </summary>
+        int _jcpl = 1;
+
+        /// <summary>
+        /// 字符串队列【.NET Framework 4.0以上】
+        /// </summary>
+        ConcurrentQueue<string> _cq = new ConcurrentQueue<string>();
+
+        /// <summary>
+        /// 字节数据队列
+        /// </summary>
+        ConcurrentQueue<byte[]> _cqBZ = new ConcurrentQueue<byte[]>();
 
         public Form1()
         {
@@ -147,6 +170,7 @@ namespace fruit
                 MessageBox.Show("非法的数值");
             }
 
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -175,6 +199,9 @@ namespace fruit
                     button3.Enabled = true;
                     button1.Enabled = false;
                     sopen = true;
+                    _keepReading = true;
+
+
 
                 }
                 catch
@@ -190,7 +217,10 @@ namespace fruit
                 button2.Text = "打开串口";
                 button3.Enabled = false;
                 button1.Enabled = true;
-                sopen = false;               
+                sopen = false;
+
+                _keepReading = false;
+
             }
 
         }
@@ -210,7 +240,7 @@ namespace fruit
 
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Thread.Sleep(80);
+            //Thread.Sleep(80);
             //该事件函数在新的线程执行
             //没使用数据绑定前，此代码不可注释
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -218,30 +248,36 @@ namespace fruit
             
             byte[] buffer = new byte[200];
             int i = 0;
-            int j = 0;
+            int buffer_len = 0;
             
             string str = "";
             int n_dsp = 0;
             int check_result=0;
-
+            int gb_last=gb_index;//记录上次的位置
 
 
             try
             {
-                j = serialPort1.Read(buffer, 0, buffer.Length);
+                //buffer_len = serialPort1.Read(buffer, 0, buffer.Length);
+                buffer_len = serialPort1.Read(gbuffer, gb_index, (gbuffer.Length-gb_index));
+                gb_index = gb_index + buffer_len;
+                if (gb_index >= gbuffer.Length)
+                    gb_index = gb_index - gbuffer.Length;
             }
             catch
             {
                 return;
             }
 
-            for (i = 0; i < j; i++)
+            
+            for (i = 0; i < buffer_len; i++)
             {
-                str += Convert.ToString(buffer[i], 16) + ' ';
+                str += Convert.ToString(gbuffer[(gb_last+i)%gbuffer.Length], 16) + ' ';
             }
             str += '\r';
             //richTextBox1.Text += str;
             model.Name += str;
+            
 
 
             //if (j < buffer[4] + 5) //数据区尚未接收完整
@@ -341,31 +377,86 @@ namespace fruit
 
             //}
 
-            //gbuffer.Add(buffer);
 
-            check_result = FCOM2.monitor_check(buffer,j);
 
-            if(check_result == 1)
+            
+
+
+
+            for(i = get_index; i < gbuffer.Length; i++)
             {
+                if(gbuffer[i] == 0x01)
+                {
+                    int temp = (i + 1) % gbuffer.Length;                 
+                    if (gbuffer[temp] == 0x03 )
+                    {
+                        buffer[0] = 0x01;
+                        buffer[1] = gbuffer[temp];
+                        int j;
+                        for(j=0;j< gbuffer[(temp+1)%gbuffer.Length] +3;j++)
+                        {
+                            buffer[j+2] = gbuffer[(temp+j+1)%gbuffer.Length];
+                        }                       
+                    }
+                    else if (gbuffer[temp] == 0x01 || gbuffer[temp] == 0x05 || gbuffer[temp] == 0x06 || gbuffer[temp] == 0x10)
+                    {
+
+                    }
+                    check_result = FCOM2.monitor_check(buffer, buffer.Length);
+                    break;
+                }
+            }
+
+
+            
+
+            if (check_result == 1)
+            {
+                
                 switch (buffer[1])
                 {
                     case 3:
                         Int16 temp_val;
-                        int sn;
-                        byte []temp_i=new byte[2];
-                        for (i = 3; i < buffer[2] + 3; i = i + 2)
+                        int snrun;
+                        byte[] temp_i = new byte[2];
+                        get_index = get_index+buffer[2] + 5;
+                        if (sn == 0)
                         {
-                            temp_i[1]=buffer[i];
-                            temp_i[0]=buffer[i+1];
-                            temp_val = BitConverter.ToInt16(temp_i, 0);
-                            sn = (i - 3) / 2;
-                            DB_Com.data[sn].VALUE = temp_val;
-                            dataGridView1.Rows[sn].Cells[2].Value = DB_Com.data[sn].VALUE;
+                            
+                            for (i = 3; i < buffer[2] + 3; i = i + 2)
+                            {
+                                temp_i[1] = buffer[i];
+                                temp_i[0] = buffer[i + 1];
+                                temp_val = BitConverter.ToInt16(temp_i, 0);
+                                snrun = (i - 3) / 2;
+                                DB_Com.data[snrun].VALUE = temp_val;
+                                dataGridView1.Rows[snrun].Cells[2].Value = DB_Com.data[snrun].VALUE;
+                            }
+                        }
+                        else if(sn == 44)
+                        {
+                            for (i = 3; i < buffer[2] + 3; i = i + 2)
+                            {
+                                temp_i[1] = buffer[i];
+                                temp_i[0] = buffer[i + 1];
+                                temp_val = BitConverter.ToInt16(temp_i, 0);
+                                snrun = sn+(i - 3) / 2;
+                                if(DB_Com.data[snrun].VALUE != temp_val)
+                                {
+                                    MessageBox.Show("参数不一致");
+                                    break;
+                                }
+                            }
                         }
                         break;
                     default:
                         break;
                 }
+  
+            }
+            else
+            {
+                return;
             }
 
         }
@@ -490,6 +581,12 @@ namespace fruit
                 sn = 44;
                 flag_get_runvalue = false;
                 button5.Text = "数据采集";
+                
+                timer1.Enabled = false;
+
+                FCOM2.Monitor_Get_03(44, 50);
+                serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+
                 timer1.Enabled = true;
             }
             else
@@ -604,9 +701,9 @@ namespace fruit
                         MessageBox.Show("参数一致");
                     }
                     */
-                    FCOM2.Monitor_Get_03(44, 50);
+                    //FCOM2.Monitor_Get_03(44, 50);
 
-                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                    //serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
 
 
                 }
@@ -673,11 +770,10 @@ namespace fruit
 
 
 
-                
 
 
 
-               
+
             }
         }
 
@@ -947,6 +1043,106 @@ namespace fruit
         }
 
 
+        /// <summary>
+        /// 串口读取方法
+        /// </summary>
+        void SerialPortRead()
+        {
+            while (_keepReading)
+            {
+                if (_jcpl > 0)//按行读取可以省略
+                {
+                    Thread.Sleep(_jcpl);
+                }
+                if (serialPort1 == null)
+                {
+                    MessageBox.Show("串口对象未实例化！");
+                    Thread.Sleep(3000);//3秒后重新检测
+                    continue;
+                }
+                if (!serialPort1.IsOpen)
+                {
+                    MessageBox.Show( "串口未打开");
+                    Thread.Sleep(3000);
+                    continue;
+                }
+
+                try
+                {
+                    #region 按行读取
+                    string buffer = serialPort1.ReadLine();
+                    if (!string.IsNullOrEmpty(buffer))//可以不加判断，允许添加null值，数据解析时，再做判断。
+                    {
+                        _cq.Enqueue(buffer);
+                    }
+                    #endregion
+
+                    //#region 字节读取
+                    //byte[] readBuffer = new byte[_sp.ReadBufferSize + 1];
+                    //int count = _sp.Read(readBuffer, 0, _sp.ReadBufferSize);
+                    //if (count != 0)
+                    //{
+                    //    _cqBZ.Enqueue(readBuffer);
+                    //}
+                    //#endregion
+
+                    MessageBox.Show("串口通信正常");
+                }
+                catch (TimeoutException)//注意超时时间的定义
+                {
+                    MessageBox.Show( "串口读取超时！");
+                }
+                catch (Exception ex)//排除隐患后可以去掉。
+                {
+                    MessageBox.Show("串口读取异常：" + ex.Message);
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// 数据解析
+        /// </summary>
+        void DataAnalysis()
+        {
+            while (true)
+            {
+                Thread.Sleep(10);
+
+                if (_cq.IsEmpty)
+                {
+                    continue;
+                }
+
+                #region 按行读取
+                for (int i = 0; i < _cq.Count; i++)
+                {
+                    string strTmp = "";
+                    _cq.TryDequeue(out strTmp);
+                    //解析strTmp
+                    //解析strTmp
+                    //解析strTmp
+                }
+                #endregion
+
+                #region 按字节读取
+                //StringBuilder sb = new StringBuilder();
+                //for (int i = 0; i < _cq.Count; i++)
+                //{
+                //    byte[] bt = null;
+                //    _cqBZ.TryDequeue(out bt);
+                //    string strTmp = System.Text.Encoding.ASCII.GetString(bt);
+                //    sb.Append(strTmp);
+                //}
+                ////解析sb
+                ////解析sb
+                ////解析sb
+                #endregion
+            }
+
+        }
+
 
 
         public string Serial_Port
@@ -1028,3 +1224,5 @@ namespace fruit
 
     public delegate void PropertyNoticeHandler(object handle, string proName);
 }
+
+
