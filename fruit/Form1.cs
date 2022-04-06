@@ -425,7 +425,7 @@ namespace fruit
                         Int16 temp_val;
                         int snrun;
                         byte[] temp_i = new byte[2];
-                        get_index = get_index+buffer[2] + 5;
+                        get_index = (get_index+buffer[2] + 5) % gbuffer.Length;
                         if (sn == 0)
                         {
                             
@@ -456,10 +456,10 @@ namespace fruit
                         }
                         break;
                     case 0x06:
-                        get_index = get_index + 8;
+                        get_index = (get_index + 8) % gbuffer.Length;
                         break;
                     case 0x10:
-                        get_index = get_index + 8;
+                        get_index = (get_index + 8) % gbuffer.Length;
                         break;
                     default:
                         break;
