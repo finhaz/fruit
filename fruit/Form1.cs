@@ -33,7 +33,8 @@ namespace fruit
         public int sn=0; 
         int mrow;       
         int Num_time = 0;
-        int Num_DSP=0;       
+        int Num_DSP=0;
+        int Protocol_num=0;
         static int Set_Num_DSP = 2;//代表有机子数
 
         
@@ -78,6 +79,14 @@ namespace fruit
         
         private void Form1_Load(object sender, EventArgs e)
         {
+            string[] item = { "FE协议", "Modbus协议" };
+            foreach (string a in item)
+            {
+                comboBox1.Items.Add(a);
+            }
+            comboBox1.SelectedItem = comboBox1.Items[1];    //默认为列表第二个变量  
+            Protocol_num = 1;
+
             model.NoticeHandler += new PropertyNoticeHandler(PropertyNoticeHandler);
             Binding bind2 = new Binding("Text", model, "Name");
             richTextBox1.DataBindings.Add(bind2);
@@ -240,7 +249,10 @@ namespace fruit
 
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //Thread.Sleep(80);
+            if (Protocol_num == 0)
+            {
+                Thread.Sleep(80);//照顾当前粒子群的非环形缓冲读取法
+            }
             //该事件函数在新的线程执行
             //没使用数据绑定前，此代码不可注释
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -258,11 +270,17 @@ namespace fruit
 
             try
             {
-                //buffer_len = serialPort1.Read(buffer, 0, buffer.Length);
-                buffer_len = serialPort1.Read(gbuffer, gb_index, (gbuffer.Length-gb_index));
-                gb_index = gb_index + buffer_len;
-                if (gb_index >= gbuffer.Length)
-                    gb_index = gb_index - gbuffer.Length;
+                if (Protocol_num == 0)
+                {
+                    buffer_len = serialPort1.Read(gbuffer, 0, gbuffer.Length);
+                }
+                else if (Protocol_num == 1)
+                {
+                    buffer_len = serialPort1.Read(gbuffer, gb_index, (gbuffer.Length - gb_index));
+                    gb_index = gb_index + buffer_len;
+                    if (gb_index >= gbuffer.Length)
+                        gb_index = gb_index - gbuffer.Length;
+                }
             }
             catch
             {
@@ -272,205 +290,207 @@ namespace fruit
             
             for (i = 0; i < buffer_len; i++)
             {
-                str += Convert.ToString(gbuffer[(gb_last+i)%gbuffer.Length], 16) + ' ';
+                str += Convert.ToString(gbuffer[(gb_last + i) % gbuffer.Length], 16) + ' ';
             }
             str += '\r';
             //richTextBox1.Text += str;
             model.Name += str;
-            
 
 
-            //if (j < buffer[4] + 5) //数据区尚未接收完整
-            //{
-            //    return;
-            //}
-
-            //check_result=NYS_com.monitor_check(buffer);
-
-            //if (check_result == 1)
-            //{
-            //    n_dsp = buffer[7];
-            //    for (int i_k = 0; i_k < 9; i_k++)//字节重新拼接为浮点数
-            //    {
-            //        //PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-            //        IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-            //        //Fish_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(buffer, 8 + 4 * i_k);
-
-
-            //    }
-            //    if (n_dsp == Set_Num_DSP)
-            //    {
-            //        /*
-            //        Thread th = new Thread(new ThreadStart(PSO_v.cale_pso)); //创建PSO线程
-            //        th.Start(); //启动线程                          
-            //        Thread th1 = new Thread(new ThreadStart(update_UI_PSO)); //创建UI线程
-            //        th1.Start(); //启动线程
-            //        */
-
-
-            //        Thread th = new Thread(new ThreadStart(IPSO_v.cale_pso)); //创建IPSO线程
-            //        th.Start(); //启动线程                          
-            //        Thread th1 = new Thread(new ThreadStart(update_UI_IPSO)); //创建UI线程
-            //        th1.Start(); //启动线程
-
-
-            //        /*
-            //        Thread th = new Thread(new ThreadStart(Fish_v.cale_fish)); //创建FISH线程
-            //        th.Start(); //启动线程                          
-            //        Thread th1 = new Thread(new ThreadStart(update_UI_FishAI)); //创建UI线程
-            //        th1.Start(); //启动线程
-            //        */
-
-            //    }
-            //}
-            //else if (check_result == 2)
-            //{
-            //    float temp_val;
-            //    temp_val = BitConverter.ToSingle(buffer, 8);
-
-            //    if (DB_Com.data[buffer[5]].SN == buffer[5])
-            //    {
-            //        if (buffer[5] < 44)
-            //        {
-            //            DB_Com.data[buffer[5]].VALUE = temp_val;
-            //            dataGridView1.Rows[DB_Com.data[buffer[5]].SN].Cells[2].Value = DB_Com.data[buffer[5]].VALUE;
-            //        }
-            //        else
-            //        {
-            //            float ovla;
-            //            int vindex;
-            //            if (buffer[5] < 90)
-            //            {
-            //                vindex = DB_Com.data[buffer[5]].SN - 44;
-            //                ovla = Convert.ToSingle(dataGridView2.Rows[vindex].Cells[2].Value);
-            //            }
-            //            else
-            //            {
-            //                vindex = DB_Com.data[buffer[5]].SN - 90;
-            //                ovla = Convert.ToSingle(dataGridView3.Rows[vindex].Cells[2].Value);
-            //            }
-            //            if (temp_val != ovla)
-            //            {
-            //                if (flag_under_first == false)
-            //                {
-            //                    flag_uncon = true;//说明出现上下参数不一致
-            //                }
-            //                else
-            //                {
-            //                    if (buffer[5] < 90)
-            //                    {
-            //                        dataGridView2.Rows[vindex].Cells[2].Value = temp_val;
-            //                        DB_Com.DataBase_SET_Save("PARAMETER_SET", temp_val, (byte)buffer[5]);
-            //                    }
-            //                    else
-            //                    {
-            //                        dataGridView3.Rows[vindex].Cells[2].Value = temp_val;
-            //                        DB_Com.DataBase_SET_Save("PARAMETER_FACTOR", temp_val, (byte)buffer[5]);
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //    DB_Com.data[buffer[5]].ACK = buffer[7];
-
-            //}
-
-
-
-            
-
-
-
-            for(i = get_index; i < gbuffer.Length; i++)
+            if (Protocol_num == 0)
             {
-                if(gbuffer[i] == 0x01)
+                if (buffer_len < gbuffer[4] + 5) //数据区尚未接收完整
                 {
-                    int temp = (i + 1) % gbuffer.Length;                 
-                    if (gbuffer[temp] == 0x03 )
-                    {
-                        buffer[0] = 0x01;
-                        buffer[1] = gbuffer[temp];
-                        int j;
-                        for(j=0;j< gbuffer[(temp+1)%gbuffer.Length] +3;j++)
-                        {
-                            buffer[j+2] = gbuffer[(temp+j+1)%gbuffer.Length];
-                        }                       
-                    }
-                    else if (gbuffer[temp] == 0x06|| gbuffer[temp] == 0x10)
-                    {
-                        buffer[0] = 0x01;
-                        buffer[1] = gbuffer[temp];
-                        int j;
-                        for (j = 0; j < 6; j++)
-                        {
-                            buffer[j + 2] = gbuffer[(temp + j + 1) % gbuffer.Length];
-                        }
-                    }
-                    check_result = FCOM2.monitor_check(buffer, buffer.Length);
-                    break;
+                    return;
                 }
-            }
 
+                check_result = NYS_com.monitor_check(gbuffer);
 
-            
-
-            if (check_result == 1)
-            {
-                
-                switch (buffer[1])
+                if (check_result == 1)
                 {
-                    case 0x03:
-                        Int16 temp_val;
-                        int snrun;
-                        byte[] temp_i = new byte[2];
-                        get_index = (get_index+buffer[2] + 5) % gbuffer.Length;
-                        if (sn == 0)
+                    n_dsp = gbuffer[7];
+                    for (int i_k = 0; i_k < 9; i_k++)//字节重新拼接为浮点数
+                    {
+                        //PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
+
+                        IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
+
+                        //Fish_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
+
+
+                    }
+                    if (n_dsp == Set_Num_DSP)
+                    {
+                        /*
+                        Thread th = new Thread(new ThreadStart(PSO_v.cale_pso)); //创建PSO线程
+                        th.Start(); //启动线程                          
+                        Thread th1 = new Thread(new ThreadStart(update_UI_PSO)); //创建UI线程
+                        th1.Start(); //启动线程
+                        */
+
+
+                        Thread th = new Thread(new ThreadStart(IPSO_v.cale_pso)); //创建IPSO线程
+                        th.Start(); //启动线程                          
+                        Thread th1 = new Thread(new ThreadStart(update_UI_IPSO)); //创建UI线程
+                        th1.Start(); //启动线程
+
+
+                        /*
+                        Thread th = new Thread(new ThreadStart(Fish_v.cale_fish)); //创建FISH线程
+                        th.Start(); //启动线程                          
+                        Thread th1 = new Thread(new ThreadStart(update_UI_FishAI)); //创建UI线程
+                        th1.Start(); //启动线程
+                        */
+
+                    }
+                }
+                else if (check_result == 2)
+                {
+                    float temp_val;
+                    temp_val = BitConverter.ToSingle(gbuffer, 8);
+
+                    if (DB_Com.data[gbuffer[5]].SN == gbuffer[5])
+                    {
+                        if (gbuffer[5] < 44)
                         {
-                            
-                            for (i = 3; i < buffer[2] + 3; i = i + 2)
-                            {
-                                temp_i[1] = buffer[i];
-                                temp_i[0] = buffer[i + 1];
-                                temp_val = BitConverter.ToInt16(temp_i, 0);
-                                snrun = (i - 3) / 2;
-                                DB_Com.data[snrun].VALUE = temp_val;
-                                dataGridView1.Rows[snrun].Cells[2].Value = DB_Com.data[snrun].VALUE;
-                            }
+                            DB_Com.data[gbuffer[5]].VALUE = temp_val;
+                            dataGridView1.Rows[DB_Com.data[gbuffer[5]].SN].Cells[2].Value = DB_Com.data[gbuffer[5]].VALUE;
                         }
-                        else if(sn == 44)
+                        else
                         {
-                            for (i = 3; i < buffer[2] + 3; i = i + 2)
+                            float ovla;
+                            int vindex;
+                            if (gbuffer[5] < 90)
                             {
-                                temp_i[1] = buffer[i];
-                                temp_i[0] = buffer[i + 1];
-                                temp_val = BitConverter.ToInt16(temp_i, 0);
-                                snrun = sn+(i - 3) / 2;
-                                if(DB_Com.data[snrun].VALUE != temp_val)
+                                vindex = DB_Com.data[gbuffer[5]].SN - 44;
+                                ovla = Convert.ToSingle(dataGridView2.Rows[vindex].Cells[2].Value);
+                            }
+                            else
+                            {
+                                vindex = DB_Com.data[gbuffer[5]].SN - 90;
+                                ovla = Convert.ToSingle(dataGridView3.Rows[vindex].Cells[2].Value);
+                            }
+                            if (temp_val != ovla)
+                            {
+                                if (flag_under_first == false)
                                 {
-                                    MessageBox.Show("参数不一致");
-                                    break;
+                                    flag_uncon = true;//说明出现上下参数不一致
+                                }
+                                else
+                                {
+                                    if (gbuffer[5] < 90)
+                                    {
+                                        dataGridView2.Rows[vindex].Cells[2].Value = temp_val;
+                                        DB_Com.DataBase_SET_Save("PARAMETER_SET", temp_val, (byte)gbuffer[5]);
+                                    }
+                                    else
+                                    {
+                                        dataGridView3.Rows[vindex].Cells[2].Value = temp_val;
+                                        DB_Com.DataBase_SET_Save("PARAMETER_FACTOR", temp_val, (byte)gbuffer[5]);
+                                    }
                                 }
                             }
                         }
-                        break;
-                    case 0x06:
-                        get_index = (get_index + 8) % gbuffer.Length;
-                        break;
-                    case 0x10:
-                        get_index = (get_index + 8) % gbuffer.Length;
-                        break;
-                    default:
-                        break;
+                    }
+                    DB_Com.data[gbuffer[5]].ACK = gbuffer[7];
+
                 }
-  
-            }
-            else
-            {
-                return;
+
             }
 
+
+
+            else if (Protocol_num == 1)
+            {
+
+                for (i = get_index; i < gbuffer.Length; i++)
+                {
+                    if (gbuffer[i] == 0x01)
+                    {
+                        int temp = (i + 1) % gbuffer.Length;
+                        if (gbuffer[temp] == 0x03)
+                        {
+                            buffer[0] = 0x01;
+                            buffer[1] = gbuffer[temp];
+                            int j;
+                            for (j = 0; j < gbuffer[(temp + 1) % gbuffer.Length] + 3; j++)
+                            {
+                                buffer[j + 2] = gbuffer[(temp + j + 1) % gbuffer.Length];
+                            }
+                        }
+                        else if (gbuffer[temp] == 0x06 || gbuffer[temp] == 0x10)
+                        {
+                            buffer[0] = 0x01;
+                            buffer[1] = gbuffer[temp];
+                            int j;
+                            for (j = 0; j < 6; j++)
+                            {
+                                buffer[j + 2] = gbuffer[(temp + j + 1) % gbuffer.Length];
+                            }
+                        }
+                        check_result = FCOM2.monitor_check(buffer, buffer.Length);
+                        break;
+                    }
+                }
+
+
+
+
+                if (check_result == 1)
+                {
+
+                    switch (buffer[1])
+                    {
+                        case 0x03:
+                            Int16 temp_val;
+                            int snrun;
+                            byte[] temp_i = new byte[2];
+                            get_index = (get_index + buffer[2] + 5) % gbuffer.Length;
+                            if (sn == 0)
+                            {
+
+                                for (i = 3; i < buffer[2] + 3; i = i + 2)
+                                {
+                                    temp_i[1] = buffer[i];
+                                    temp_i[0] = buffer[i + 1];
+                                    temp_val = BitConverter.ToInt16(temp_i, 0);
+                                    snrun = (i - 3) / 2;
+                                    DB_Com.data[snrun].VALUE = temp_val;
+                                    dataGridView1.Rows[snrun].Cells[2].Value = DB_Com.data[snrun].VALUE;
+                                }
+                            }
+                            else if (sn == 44)
+                            {
+                                for (i = 3; i < buffer[2] + 3; i = i + 2)
+                                {
+                                    temp_i[1] = buffer[i];
+                                    temp_i[0] = buffer[i + 1];
+                                    temp_val = BitConverter.ToInt16(temp_i, 0);
+                                    snrun = sn + (i - 3) / 2;
+                                    if (DB_Com.data[snrun].VALUE != temp_val)
+                                    {
+                                        MessageBox.Show("参数不一致");
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        case 0x06:
+                            get_index = (get_index + 8) % gbuffer.Length;
+                            break;
+                        case 0x10:
+                            get_index = (get_index + 8) % gbuffer.Length;
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
 
         private void update_UI_PSO()
@@ -596,8 +616,11 @@ namespace fruit
                 
                 timer1.Enabled = false;
 
-                FCOM2.Monitor_Get_03(44, 50);
-                serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                if (Protocol_num == 1)
+                {
+                    FCOM2.Monitor_Get_03(44,50);
+                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                }
 
                 timer1.Enabled = true;
             }
@@ -615,6 +638,7 @@ namespace fruit
 
             PSO_v.pso_init = false;
             IPSO_v.pso_init = false;
+            int send_num=0;
 
             if (!serialPort1.IsOpen)
             {
@@ -636,23 +660,32 @@ namespace fruit
                 timer3.Enabled = false;
             }
 
-            //nys协议
-            //NYS_com.Monitor_Run(brun);
-            //serialPort1.Write(NYS_com.sendbf, 0, 10);
+            if (Protocol_num == 0)//FE协议
+            {
+                NYS_com.Monitor_Run(brun);
+                send_num = NYS_com.sendbf[4]+5;
+                serialPort1.Write(NYS_com.sendbf, 0, send_num);
+            }
+            else if (Protocol_num == 1)//modbus
+            {
+                //1号机1通道
+                FCOM2.Monitor_Run(1, 128, brun);
+                send_num = FCOM2.sendbf[0]+1;
+                serialPort1.Write(FCOM2.sendbf, 0, send_num);
+            }
 
-            //modbus
-            //1号机1通道
-            FCOM2.Monitor_Run(1,128,brun);
-
-            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0]+1);
-
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < send_num; i++)
             {
                 try
                 {
-                    //richTextBox1.Text += Convert.ToString(sendbf[i], 16);
-                    //richTextBox1.Text += ' ';
-                    model.Name+= Convert.ToString(NYS_com.sendbf[i], 16);
+                    if (Protocol_num == 0)
+                    {
+                        model.Name += Convert.ToString(NYS_com.sendbf[i], 16);
+                    }
+                    else if (Protocol_num == 1)
+                    {
+                        model.Name += Convert.ToString(FCOM2.sendbf[i], 16);
+                    }
                     model.Name += ' ';
                 }
                 catch
@@ -660,12 +693,8 @@ namespace fruit
                     MessageBox.Show("停机冲突");
                 }
             }
+
             model.Name+= '\r';
-
-
-            Array.Clear(NYS_com.sendbf, 0, 19);
-
-            //richTextBox1.Text += '\n';
             model.Name += '\n';
         }
 
@@ -673,7 +702,7 @@ namespace fruit
         {
             if(brun)
             { 
-                MessageBox.Show("厉害"); 
+                MessageBox.Show("厉害,发现了这个彩蛋"); 
             }
             else
             {
@@ -701,90 +730,106 @@ namespace fruit
 
                 if (!Initialized)//比对未完成
                 {
-                    /*
-                    NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
-                    sn = sn + 1;
-                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
-                    if (sn == 118)
+                    if (Protocol_num == 0)
                     {
-                        sn = 0;
-                        Initialized = true;
-                        MessageBox.Show("参数一致");
+                        NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
+                        sn = sn + 1;
+                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                        if (sn == 118)
+                        {
+                            sn = 0;
+                            Initialized = true;
+                            MessageBox.Show("参数一致");
+                        }
                     }
-                    */
-                    //FCOM2.Monitor_Get_03(44, 50);
-
-                    //serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
-
 
                 }
 
                 if(flag_get_runvalue==true)
                 {
-                    /*
-                    if (sn == DB_Com.runnum)
+                    if (Protocol_num == 0)
                     {
-                        sn = 0;
+                        if (sn == DB_Com.runnum)
+                        {
+                            sn = 0;
 
-                        DB_Com.DataBase_RUN_Save();
+                            DB_Com.DataBase_RUN_Save();
+                        }
+
+                        NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
+
+                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                        sn = sn + 1;
+
                     }
+                    else if (Protocol_num == 1)
+                    {
+                        DB_Com.DataBase_RUN_Save();
 
-                    NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
+                        FCOM2.Monitor_Get_03(0, DB_Com.runnum);
 
-                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
-                    sn = sn + 1;
-                    
-                    */
-
-                    DB_Com.DataBase_RUN_Save();
-
-                    FCOM2.Monitor_Get_03(0,10);
-
-                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
-
-                    
+                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                    }
 
                 }
 
                 if(flag_under_first==true)
                 {
-                    if (sn < 118)
+                    if (Protocol_num == 0)
                     {
-                        //NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
-                        FCOM2.Monitor_Set_06(sn, DB_Com.data[0].VALUE);
-                        sn = sn + 1;
-                    }
-                    else
-                    {
-                        flag_under_first = false;
-                        MessageBox.Show("参数初始化完成！！");
-                    }
+                        if (sn < 118)
+                        {
 
-                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+                            NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[0].COMMAND);
+                            sn = sn + 1;
+                        }
+                        else
+                        {
+                            flag_under_first = false;
+                            MessageBox.Show("参数初始化完成！！");
+                        }
+
+                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+                    }
+                    else if (Protocol_num == 1)
+                    {
+                        MessageBox.Show("modbus的参数初始化功能缺失！！");
+                    }
                 }
 
                 if (flag_upper_first == true)
                 {
-                    if(sn<118)
+                    if (Protocol_num == 0)
                     {
-                        NYS_com.Monitor_Set((byte)sn, (byte)DB_Com.data[sn].COMMAND,DB_Com.data[sn].VALUE);
-                        sn = sn + 1;
+                        if (sn < 118)
+                        {
+                            NYS_com.Monitor_Set((byte)sn, (byte)DB_Com.data[sn].COMMAND, DB_Com.data[sn].VALUE);
+                            sn = sn + 1;
+                        }
+                        else
+                        {
+                            flag_upper_first = false;
+                            MessageBox.Show("参数初始化完成！！");
+                        }
+                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
                     }
-                    else
+                    else if (Protocol_num == 1)
                     {
-                        flag_upper_first = false;
-                        MessageBox.Show("参数初始化完成！！");
+                        if (sn < 118)
+                        {
+                            FCOM2.Monitor_Set_06(sn, DB_Com.data[sn].VALUE);
+                            sn = sn + 1;
+                        }
+                        else
+                        {
+                            flag_upper_first = false;
+                            MessageBox.Show("参数初始化完成！！");
+                        }
+                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
                     }
-                    serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
                 }
-
-
-
-
-
-
 
             }
         }
@@ -871,11 +916,16 @@ namespace fruit
                         new_v = i = Convert.ToSingle(dataGridView2.Rows[e.RowIndex].Cells[2].Value);
                         tempsn = Convert.ToByte(dataGridView2.Rows[e.RowIndex].Cells[0].Value);
 
-                        //NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
-                        //serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
-
-                        FCOM2.Monitor_Set_06(tempsn, i);
-                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                        if (Protocol_num==0)
+                        {
+                            NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
+                            serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+                        }
+                        else if (Protocol_num==1)
+                        {
+                            FCOM2.Monitor_Set_06(tempsn, i);
+                            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                        }
 
                         DB_Com.data[tempsn].VALUE = new_v;
                         DB_Com.DataBase_SET_Save("PARAMETER_SET", i, tempsn);
@@ -957,8 +1007,18 @@ namespace fruit
                         //i = Convert.ToInt16(dataGridView3.Rows[e.RowIndex].Cells[2].Value);
                         i = Convert.ToSingle(dataGridView3.Rows[e.RowIndex].Cells[2].Value);
                         tempsn = Convert.ToByte(dataGridView3.Rows[e.RowIndex].Cells[0].Value);
-                        NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
-                        serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                        if (Protocol_num == 0)
+                        {
+                            NYS_com.Monitor_Set(tempsn, (byte)(DB_Com.data[tempsn].COMMAND), i);
+                            serialPort1.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+                        }
+                        else if (Protocol_num == 1)
+                        {
+                            FCOM2.Monitor_Set_06(tempsn, i);
+                            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                        }
+
                         DB_Com.data[tempsn].VALUE = i;
                         DB_Com.DataBase_SET_Save("PARAMETER_FACTOR",i,tempsn);
 
@@ -1009,7 +1069,8 @@ namespace fruit
 
         private void Form1_DoubleClick(object sender, EventArgs e)
         {
-            MessageBox.Show("PSO 1.0版本！");
+            MessageBox.Show("FE/M 2.0版本！");
+            test();
         }
 
         private void timer3_Tick(object sender, EventArgs e)
@@ -1038,6 +1099,11 @@ namespace fruit
         {
             if (brun)
             {
+                if(Protocol_num!=0)
+                {
+                    MessageBox.Show("FE协议才行！");
+                    return;
+                }
                 timer3.Enabled = !timer3.Enabled;
                 if(timer3.Enabled==true)
                 {
@@ -1052,107 +1118,6 @@ namespace fruit
                     
                 }
             }
-        }
-
-
-        /// <summary>
-        /// 串口读取方法
-        /// </summary>
-        void SerialPortRead()
-        {
-            while (_keepReading)
-            {
-                if (_jcpl > 0)//按行读取可以省略
-                {
-                    Thread.Sleep(_jcpl);
-                }
-                if (serialPort1 == null)
-                {
-                    MessageBox.Show("串口对象未实例化！");
-                    Thread.Sleep(3000);//3秒后重新检测
-                    continue;
-                }
-                if (!serialPort1.IsOpen)
-                {
-                    MessageBox.Show( "串口未打开");
-                    Thread.Sleep(3000);
-                    continue;
-                }
-
-                try
-                {
-                    #region 按行读取
-                    string buffer = serialPort1.ReadLine();
-                    if (!string.IsNullOrEmpty(buffer))//可以不加判断，允许添加null值，数据解析时，再做判断。
-                    {
-                        _cq.Enqueue(buffer);
-                    }
-                    #endregion
-
-                    //#region 字节读取
-                    //byte[] readBuffer = new byte[_sp.ReadBufferSize + 1];
-                    //int count = _sp.Read(readBuffer, 0, _sp.ReadBufferSize);
-                    //if (count != 0)
-                    //{
-                    //    _cqBZ.Enqueue(readBuffer);
-                    //}
-                    //#endregion
-
-                    MessageBox.Show("串口通信正常");
-                }
-                catch (TimeoutException)//注意超时时间的定义
-                {
-                    MessageBox.Show( "串口读取超时！");
-                }
-                catch (Exception ex)//排除隐患后可以去掉。
-                {
-                    MessageBox.Show("串口读取异常：" + ex.Message);
-                }
-
-            }
-        }
-
-
-        /// <summary>
-        /// 数据解析
-        /// </summary>
-        void DataAnalysis()
-        {
-            while (true)
-            {
-                Thread.Sleep(10);
-
-                if (_cq.IsEmpty)
-                {
-                    continue;
-                }
-
-                #region 按行读取
-                for (int i = 0; i < _cq.Count; i++)
-                {
-                    string strTmp = "";
-                    _cq.TryDequeue(out strTmp);
-                    //解析strTmp
-                    //解析strTmp
-                    //解析strTmp
-                }
-                #endregion
-
-                #region 按字节读取
-                //StringBuilder sb = new StringBuilder();
-                //for (int i = 0; i < _cq.Count; i++)
-                //{
-                //    byte[] bt = null;
-                //    _cqBZ.TryDequeue(out bt);
-                //    string strTmp = System.Text.Encoding.ASCII.GetString(bt);
-                //    sb.Append(strTmp);
-                //}
-                ////解析sb
-                ////解析sb
-                ////解析sb
-                #endregion
-            }
-
         }
 
 
@@ -1185,6 +1150,16 @@ namespace fruit
         {
             get { return this.serialPort1.StopBits; }
             set { this.serialPort1.StopBits = value; }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.SelectedItem.ToString())
+            {
+                case "FE协议": Protocol_num = 0; break;
+                case "Modbus协议": Protocol_num = 1; break;
+                default: Protocol_num = 0; break;
+            }
         }
     }
 

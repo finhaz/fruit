@@ -67,6 +67,8 @@
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.button6 = new System.Windows.Forms.Button();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -242,7 +244,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(35, 74);
+            this.button2.Location = new System.Drawing.Point(140, 23);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(77, 37);
@@ -254,7 +256,7 @@
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(35, 122);
+            this.button3.Location = new System.Drawing.Point(140, 81);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(77, 37);
@@ -265,7 +267,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(35, 171);
+            this.button4.Location = new System.Drawing.Point(35, 81);
             this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(77, 37);
@@ -276,10 +278,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(35, 230);
+            this.textBox1.Location = new System.Drawing.Point(35, 209);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(97, 21);
+            this.textBox1.Size = new System.Drawing.Size(182, 21);
             this.textBox1.TabIndex = 7;
             this.textBox1.Text = "系统停止运行";
             // 
@@ -288,7 +290,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(9, 342);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(176, 256);
+            this.richTextBox1.Size = new System.Drawing.Size(220, 256);
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -299,7 +301,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.ItemSize = new System.Drawing.Size(0, 21);
-            this.tabControl1.Location = new System.Drawing.Point(195, 23);
+            this.tabControl1.Location = new System.Drawing.Point(250, 23);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -357,7 +359,7 @@
             this.button5.Location = new System.Drawing.Point(35, 263);
             this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(77, 37);
+            this.button5.Size = new System.Drawing.Size(84, 37);
             this.button5.TabIndex = 10;
             this.button5.Text = "数据采集";
             this.button5.UseVisualStyleBackColor = true;
@@ -368,7 +370,7 @@
             this.textBox2.Location = new System.Drawing.Point(73, 304);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(39, 21);
+            this.textBox2.Size = new System.Drawing.Size(52, 21);
             this.textBox2.TabIndex = 11;
             this.textBox2.Text = "100";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -388,7 +390,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 10F);
-            this.label2.Location = new System.Drawing.Point(117, 307);
+            this.label2.Location = new System.Drawing.Point(130, 306);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(21, 14);
             this.label2.TabIndex = 13;
@@ -402,10 +404,10 @@
             // button6
             // 
             this.button6.Enabled = false;
-            this.button6.Location = new System.Drawing.Point(136, 263);
+            this.button6.Location = new System.Drawing.Point(133, 263);
             this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(47, 37);
+            this.button6.Size = new System.Drawing.Size(80, 37);
             this.button6.TabIndex = 14;
             this.button6.Text = "PSO";
             this.button6.UseVisualStyleBackColor = true;
@@ -415,11 +417,33 @@
             // 
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(39, 168);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(178, 20);
+            this.comboBox1.TabIndex = 15;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 10F);
+            this.label3.Location = new System.Drawing.Point(88, 141);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 14);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "协议选择";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(905, 705);
+            this.ClientSize = new System.Drawing.Size(984, 711);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -489,6 +513,8 @@
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.Button button6;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label3;
     }
 }
 
