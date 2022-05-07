@@ -120,6 +120,7 @@
     <Content Include="2.ico" />
     <Content Include="moon.ico" />
     <Content Include="mooncell.ico" />
+    <None Include="mother.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

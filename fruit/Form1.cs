@@ -706,7 +706,17 @@ namespace fruit
             }
             else
             {
-                MessageBox.Show("如果不会JAVA的衍生语种，本程序可能就会被理解错误");
+                if (pictureBox1.Visible == false)
+                {
+                    pictureBox1.Visible = true;
+
+                }
+                else
+                {
+                    pictureBox1.Visible = false;
+                }
+                richTextBox1.Text = "";
+                richTextBox1.Text = "母亲节的特制版本，母爱包容一切(●'◡'●)";
             }
             
             return;
