@@ -706,17 +706,8 @@ namespace fruit
             }
             else
             {
-                if (pictureBox1.Visible == false)
-                {
-                    pictureBox1.Visible = true;
-
-                }
-                else
-                {
-                    pictureBox1.Visible = false;
-                }
                 richTextBox1.Text = "";
-                richTextBox1.Text = "母亲节的特制版本，母爱包容一切(●'◡'●)";
+                richTextBox1.Text = "开始.net core了";
             }
             
             return;
