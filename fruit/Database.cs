@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.Odbc;
 using System.Windows.Forms;
 
 namespace fruit
@@ -17,24 +14,50 @@ namespace fruit
     }
     public class DataBase_Interface
     {
+        /*
+        public static string ConnString =
+            "Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" +
+            AppDomain.CurrentDomain.BaseDirectory +
+            "Files\\MOON.accdb;";
+
+        public static string ConnString2 =
+            "Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" +
+            AppDomain.CurrentDomain.BaseDirectory +
+            "Files\\fruit.accdb;";
+        */
+
+        public static string ConnString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=./MOON.mdb;";
+
+        public static string ConnString2 = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=./fruit.mdb;";
+
         public Data_r[] data = new Data_r[200];
         public int u = 0;
         public int j = 0;
-        OleDbConnection conn;
-        OleDbCommand cmd;
-        OleDbDataReader dr;
+
+        //OleDbConnection conn;
+        //OleDbCommand cmd;
+        //OleDbDataReader dr;
+
+        OdbcConnection conn;
+        OdbcCommand cmd;
+        OdbcDataReader dr;
+
         string[] error1 = new string[16];
         public int runnum;
         int knum = 0;//记录存在多少条PRUN记录
         int num_pso = 0;//记录存在多少条PSO记录
         int UG_Num = 0;
+
         public void DataBase_PARAMETER_RUN_Init()
         {
 
             //OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
             //OleDbCommand cmd = conn.CreateCommand();
-            
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString);
+
             cmd = conn.CreateCommand();
 
             cmd.CommandText = "select * from PARAMETER_RUN";
@@ -92,7 +115,10 @@ namespace fruit
         public void DataBase_PARAMETER_SET_Init()
         {
             u = j + 1;
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString);
+
             cmd = conn.CreateCommand();
             cmd.CommandText = "select * from PARAMETER_SET";
             conn.Open();
@@ -146,7 +172,10 @@ namespace fruit
         public void DataBase_PARAMETER_FACTOR_Init()
         {
             u = j + 1;
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString);
+
             cmd = conn.CreateCommand();
             cmd.CommandText = "select * from PARAMETER_FACTOR";
             conn.Open();
@@ -183,7 +212,10 @@ namespace fruit
 
         public void DataBase_ERROR_Table_Init()
         {
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString);
+
             cmd = conn.CreateCommand();
             cmd.CommandText = "select * from ERROR_1";
             conn.Open();
@@ -208,19 +240,27 @@ namespace fruit
         public void DataBase_PRUN_create()
         {
             cmd.Dispose();
-            conn.Close();
+            //conn.Close();
 
 
             string query = "drop table PRUN";
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
-            
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString2);
+
             cmd = conn.CreateCommand();
             cmd.CommandText = query;
             conn.Open();
-            cmd.ExecuteNonQuery();
-            
 
-            query = "create table PRUN (id nvarchar(20) not null)";
+
+            if (IsTableExist("PRUN"))
+            {
+                cmd.ExecuteNonQuery();
+            }
+
+
+            //query = "create table PRUN (id nvarchar(20) not null)";
+            query = "create table PRUN (id int not null)";
             cmd.CommandText = query;
             cmd.ExecuteNonQuery();
 
@@ -240,7 +280,10 @@ namespace fruit
 
         public void DataBase_RUN_Save()
         {
-            OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=fruit.mdb"); //Jet OLEDB:Database Password
+            //OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=fruit.mdb"); //Jet OLEDB:Database Password
+
+            OdbcConnection conn = new OdbcConnection(ConnString2);
+
             conn.Open();
 
             //string sql = "insert into PRUN(gspeed,id,iq,rspeed,rid,riq,ud,uq,us) values(";
@@ -258,7 +301,8 @@ namespace fruit
             sql += ")";
             //string sql = "insert into PRUN(gspeed) values(" + data[2].VALUE + ")";
 
-            OleDbCommand cmd = new OleDbCommand(sql, conn);
+            //OleDbCommand cmd = new OleDbCommand(sql, conn);
+            OdbcCommand cmd =new OdbcCommand(sql, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
             knum++;
@@ -266,13 +310,16 @@ namespace fruit
 
         public void DataBase_SET_Save(string table,float set_num, byte tempsn)
         {
-            conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+            //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=MOON.mdb"); //Jet OLEDB:Database Password
+
+            conn = new OdbcConnection(ConnString);
             conn.Open();
 
             string sql = "update "+table+" set [VALUE]=" + set_num + " where SN=" + tempsn;
 
 
-            OleDbCommand cmd = new OleDbCommand(sql, conn);
+            //OleDbCommand cmd = new OleDbCommand(sql, conn);
+            OdbcCommand cmd = new OdbcCommand(sql, conn);
             cmd.ExecuteNonQuery();
 
             conn.Close();
@@ -292,11 +339,13 @@ namespace fruit
                 table_name = "UGONE";
                 query = "create table ";
                 query += table_name;
-                query += " (id nvarchar(20) not null)";
+                //query += " (id nvarchar(20) not null)";
+                query +=  "(id int not null)";
                 cmd = conn.CreateCommand();
                 cmd.CommandText = query;
                 conn.Open();
                 cmd.ExecuteNonQuery();
+
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -313,26 +362,36 @@ namespace fruit
             catch
             {
                 query = "drop table UG";
-                conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
+                //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
+
+                conn =new OdbcConnection(ConnString2);
 
                 cmd = conn.CreateCommand();
                 cmd.CommandText = query;
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                if (IsTableExist("UG"))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
                 query = "drop table UGONE";
-                conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
+                //conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=FRUIT.mdb"); //Jet OLEDB:Database Password
+                conn = new OdbcConnection(ConnString2);
 
                 cmd = conn.CreateCommand();
                 cmd.CommandText = query;
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                if (IsTableExist("UGONE"))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
                 //query = "create table UG (id nvarchar(20) not null)";
                 table_name = "UG";
                 query = "create table ";
                 query += table_name;
-                query += " (id nvarchar(20) not null)";
+                //query += " (id nvarchar(20) not null)";
+                query += "(id int not null)";
 
                 cmd.CommandText = query;
                 cmd.ExecuteNonQuery();
@@ -361,7 +420,9 @@ namespace fruit
 
         public void DataBase_UG_Save(float []psodata)
         {
-            OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=fruit.mdb"); //Jet OLEDB:Database Password
+            //OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=fruit.mdb"); //Jet OLEDB:Database Password
+
+            OdbcConnection conn = new OdbcConnection(ConnString);
             conn.Open();
 
             string sql;
@@ -382,10 +443,33 @@ namespace fruit
             }
             sql += ")";
 
-            OleDbCommand cmd = new OleDbCommand(sql, conn);
+            //OleDbCommand cmd = new OleDbCommand(sql, conn);
+            OdbcCommand cmd = new OdbcCommand(sql, conn);
+
             cmd.ExecuteNonQuery();
             conn.Close();
             //num_pso++;
+        }
+
+
+
+        public static bool IsTableExist(string tableName)
+        {
+            using OdbcConnection conn = new OdbcConnection(ConnString2);
+            try
+            {
+                conn.Open();
+                string sql = $"select * from {tableName}";
+                OdbcCommand odc = new OdbcCommand(sql, conn);
+                odc.ExecuteNonQuery();
+                odc.Dispose();
+                return true;
+            }
+            catch (Exception)
+            {
+                //System.Windows.Forms.MessageBox.Show($"数据库中不存在表: {tableName}");
+                return false;
+            }
         }
 
 
