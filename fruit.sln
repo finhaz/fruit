@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fruit", "fruit\fruit.csproj", "{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ocean", "ocean\ocean.csproj", "{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}.Release|x86.ActiveCfg = Release|x86
 		{D37EA5EF-1A5E-4024-BF82-E6B3080C56A8}.Release|x86.Build.0 = Release|x86
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D389CA9-BA8C-4249-BEEB-122A9AF415C8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
