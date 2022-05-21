@@ -264,6 +264,9 @@ namespace ocean
         private void btClearView_Click(object sender, RoutedEventArgs e)
         {
             tbReceive.Text = "";
+            SubWindow sw = new SubWindow();
+            sw.Show();
+            return;
         }
 
         private void ck16View_Click(object sender, RoutedEventArgs e)
