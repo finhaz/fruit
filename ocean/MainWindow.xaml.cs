@@ -19,7 +19,7 @@ namespace ocean
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow: MetroWindow
     {
         Frame frame1 = new Frame() { Content=new UI.Settings()};
         Frame frame2 = new Frame() { Content=new UI.controlpage()};
@@ -31,12 +31,47 @@ namespace ocean
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void DeployCupCakes(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        {
+            this.HamburgerMenuControl.Content = e.InvokedItem;
+
+            //if (!e.IsItemOptions && this.HamburgerMenuControl.IsPaneOpen)
+            if (!e.IsItemOptions )
+            {
+                switch(HamburgerMenuControl.SelectedIndex)
+                {
+                    case 0:
+                        
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            if(e.IsItemOptions)
+            {
+                MessageBox.Show("版本0.0");
+            }
+
+
+        }
+
     }
 }
