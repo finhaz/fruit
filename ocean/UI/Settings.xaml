@@ -9,6 +9,6 @@
       Title="Settings">
 
     <Grid>
-        <Label Content="settings"></Label>
+        <Label Content="settings" HorizontalAlignment="Right" FontSize="52"></Label>
     </Grid>
 </Page>
