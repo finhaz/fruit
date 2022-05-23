@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using MenuItem = ocean.ViewModels.MenuItem;
 
 namespace ocean
 {
@@ -21,7 +22,7 @@ namespace ocean
     /// </summary>
     public partial class MainWindow: MetroWindow
     {
-        private readonly NavigationService navigationServiceEx;
+        private readonly Navigation.NavigationServiceEx navigationServiceEx;
         Frame frame1 = new Frame() { Content=new UI.Settings()};
         Frame frame2 = new Frame() { Content=new UI.controlpage()};
 
@@ -29,7 +30,7 @@ namespace ocean
         {
             InitializeComponent();
 
-            this.navigationServiceEx = new NavigationServiceEx();
+            this.navigationServiceEx = new Navigation.NavigationServiceEx();
             this.navigationServiceEx.Navigated += this.NavigationServiceEx_OnNavigated;
             this.HamburgerMenuControl.Content = this.navigationServiceEx.Frame;
 
