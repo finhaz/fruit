@@ -12,6 +12,9 @@
         Height="600"          
         >
 
+
+
+
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
 
@@ -67,10 +70,13 @@
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
-            <Button Click="LaunchGitHubSite" ToolTip="Open up the GitHub site">
-                <iconPacks:PackIconModern Width="22"
-                                  Height="22"
-                                  Kind="SocialGithubOctocat" />
+            <Button x:Name="GoBackButton"
+              Width="{Binding ElementName=HamburgerMenuControl, Path=CompactPaneLength}"
+              AutomationProperties.Name="Go back"
+              Click="GoBack_OnClick">
+                <Controls:FontIcon AutomationProperties.Name="Go back icon"
+                           FontSize="14"
+                           Glyph="&#xE72B;" />
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>

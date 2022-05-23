@@ -73,5 +73,10 @@ namespace ocean
 
         }
 
+        private void GoBack_OnClick(object sender, RoutedEventArgs e)
+        {
+            //this.navigationServiceEx.GoBack();
+        }
+
     }
 }
