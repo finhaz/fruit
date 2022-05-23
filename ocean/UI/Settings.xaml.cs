@@ -24,5 +24,15 @@ namespace ocean.UI
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btOpenCom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

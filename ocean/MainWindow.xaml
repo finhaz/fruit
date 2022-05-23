@@ -7,11 +7,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
         xmlns:local="clr-namespace:ocean"
         xmlns:viewModels="clr-namespace:ocean.ViewModels"
-        mc:Ignorable="d"
-        Title="MainWindow"         
+        Title="MainWindow"
         Width="800"
-        Height="600"          
+        Height="600"
+        GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+        WindowStartupLocation="CenterScreen"
+        WindowTransitionsEnabled="False"
+        mc:Ignorable="d"          
         >
+    <Controls:MetroWindow.DataContext>
+        <viewModels:ShellViewModel />
+    </Controls:MetroWindow.DataContext>
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands ShowSeparators="False">
+            <Button x:Name="GoBackButton"
+              Width="{Binding ElementName=HamburgerMenuControl, Path=CompactPaneLength}"
+              AutomationProperties.Name="Go back"
+              Click="GoBack_OnClick">
+                <Controls:FontIcon AutomationProperties.Name="Go back icon"
+                           FontSize="14"
+                           Glyph="&#xE72B;" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
 
 
     <Controls:MetroWindow.Resources>
@@ -78,18 +97,6 @@
     </Controls:MetroWindow.Resources>
 
 
-    <Controls:MetroWindow.LeftWindowCommands>
-        <Controls:WindowCommands>
-            <Button x:Name="GoBackButton"
-              Width="{Binding ElementName=HamburgerMenuControl, Path=CompactPaneLength}"
-              AutomationProperties.Name="Go back"
-              Click="GoBack_OnClick">
-                <Controls:FontIcon AutomationProperties.Name="Go back icon"
-                           FontSize="14"
-                           Glyph="&#xE72B;" />
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.LeftWindowCommands>
 
 
     <Controls:HamburgerMenu x:Name="HamburgerMenuControl"

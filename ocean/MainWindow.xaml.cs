@@ -23,8 +23,6 @@ namespace ocean
     public partial class MainWindow: MetroWindow
     {
         private readonly Navigation.NavigationServiceEx navigationServiceEx;
-        Frame frame1 = new Frame() { Content=new UI.Settings()};
-        Frame frame2 = new Frame() { Content=new UI.controlpage()};
 
         public MainWindow()
         {
@@ -36,11 +34,6 @@ namespace ocean
 
             // Navigate to the home page.
             this.Loaded += (sender, args) => this.navigationServiceEx.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
-
-        }
-
-        private void DeployCupCakes(object sender, RoutedEventArgs e)
-        {
 
         }
 

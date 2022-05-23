@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using MahApps.Metro.IconPacks;
 using ocean.Mvvm;
 using ocean.Views;
+using ocean.UI;
 
 namespace ocean.ViewModels
 {
@@ -49,7 +50,8 @@ namespace ocean.ViewModels
                 Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.CogsSolid },
                 Label = "Settings",
                 NavigationType = typeof(SettingsPage),
-                NavigationDestination = new Uri("Views/SettingsPage.xaml", UriKind.RelativeOrAbsolute)
+                //NavigationDestination = new Uri("Views/SettingsPage.xaml", UriKind.RelativeOrAbsolute)
+                NavigationDestination = new Uri("UI/Settings.xaml", UriKind.RelativeOrAbsolute)
             });
             this.OptionsMenu.Add(new MenuItem()
             {
