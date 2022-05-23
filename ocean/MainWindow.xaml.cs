@@ -21,17 +21,21 @@ namespace ocean
     /// </summary>
     public partial class MainWindow: MetroWindow
     {
+        private readonly NavigationService navigationServiceEx;
         Frame frame1 = new Frame() { Content=new UI.Settings()};
         Frame frame2 = new Frame() { Content=new UI.controlpage()};
 
         public MainWindow()
         {
             InitializeComponent();
-        }
 
-        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
-        {
-            
+            this.navigationServiceEx = new NavigationServiceEx();
+            this.navigationServiceEx.Navigated += this.NavigationServiceEx_OnNavigated;
+            this.HamburgerMenuControl.Content = this.navigationServiceEx.Frame;
+
+            // Navigate to the home page.
+            this.Loaded += (sender, args) => this.navigationServiceEx.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
+
         }
 
         private void DeployCupCakes(object sender, RoutedEventArgs e)
@@ -39,43 +43,44 @@ namespace ocean
 
         }
 
+
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            this.HamburgerMenuControl.Content = e.InvokedItem;
-
-            //if (!e.IsItemOptions && this.HamburgerMenuControl.IsPaneOpen)
-            if (!e.IsItemOptions )
+            if (e.InvokedItem is MenuItem menuItem && menuItem.IsNavigation)
             {
-                switch(HamburgerMenuControl.SelectedIndex)
-                {
-                    case 0:
-                        
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        break;
-                }
-
+                this.navigationServiceEx.Navigate(menuItem.NavigationDestination);
             }
+        }
 
-            if(e.IsItemOptions)
-            {
-                MessageBox.Show("版本0.0");
-            }
+        private void NavigationServiceEx_OnNavigated(object sender, NavigationEventArgs e)
+        {
+            // select the menu item
+            this.HamburgerMenuControl.SelectedItem = this.HamburgerMenuControl
+                                                         .Items
+                                                         .OfType<MenuItem>()
+                                                         .FirstOrDefault(x => x.NavigationDestination == e.Uri);
+            this.HamburgerMenuControl.SelectedOptionsItem = this.HamburgerMenuControl
+                                                                .OptionsItems
+                                                                .OfType<MenuItem>()
+                                                                .FirstOrDefault(x => x.NavigationDestination == e.Uri);
 
+            // or when using the NavigationType on menu item
+            // this.HamburgerMenuControl.SelectedItem = this.HamburgerMenuControl
+            //                                              .Items
+            //                                              .OfType<MenuItem>()
+            //                                              .FirstOrDefault(x => x.NavigationType == e.Content?.GetType());
+            // this.HamburgerMenuControl.SelectedOptionsItem = this.HamburgerMenuControl
+            //                                                     .OptionsItems
+            //                                                     .OfType<MenuItem>()
+            //                                                     .FirstOrDefault(x => x.NavigationType == e.Content?.GetType());
 
+            // update back button
+            this.GoBackButton.Visibility = this.navigationServiceEx.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void GoBack_OnClick(object sender, RoutedEventArgs e)
         {
-            //this.navigationServiceEx.GoBack();
+            this.navigationServiceEx.GoBack();
         }
 
     }
