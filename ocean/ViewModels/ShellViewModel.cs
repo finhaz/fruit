@@ -21,7 +21,7 @@ namespace ocean.ViewModels
                 Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.BugSolid },
                 Label = "Bugs",
                 NavigationType = typeof(BugsPage),
-                NavigationDestination = new Uri("Views/BugsPage.xaml", UriKind.RelativeOrAbsolute)
+                NavigationDestination = new Uri("UI/debug_serial.xaml", UriKind.RelativeOrAbsolute)
             });
             this.Menu.Add(new MenuItem()
             {
