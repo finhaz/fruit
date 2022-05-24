@@ -34,10 +34,10 @@ namespace ocean.UI
             InitializeComponent();
         }
 
-        SerialPort mySerialPort = new SerialPort();
+        //SerialPort mySerialPort = new SerialPort();
         DispatcherTimer time1 = new DispatcherTimer();
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             #region//串口设置初始化
             //串口cbComName.Text
@@ -62,11 +62,11 @@ namespace ocean.UI
             cbStopBits.ItemsSource = stopBits;
             cbStopBits.Text = Convert.ToString(cbStopBits.Items[0]);
             #endregion
-            mySerialPort.DataReceived += new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
+            CommonRes.mySerialPort.DataReceived += new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            mySerialPort.Encoding = System.Text.Encoding.GetEncoding("GB2312");
+            CommonRes.mySerialPort.Encoding = System.Text.Encoding.GetEncoding("GB2312");
             //mySerialPort.Encoding = System.Text.Encoding.GetEncoding("UTF8");
             ckHexState = (bool)ck16View.IsChecked;
 
@@ -76,11 +76,23 @@ namespace ocean.UI
             bdExpend.Visibility = Visibility.Hidden;
 
 
+            if(CommonRes.mySerialPort.IsOpen)
+            {
+                cbBaudRate.IsEnabled = false;
+                cbDataBits.IsEnabled = false;
+                cbParity.IsEnabled = false;
+                cbPortName.IsEnabled = false;
+                cbStopBits.IsEnabled = false;
+
+                btOpenCom.Content = "关闭串口";
+                comState.Style = (Style)this.FindResource("EllipseStyleGreen");
+            }
+
         }
 
         private void time1_Tick(object sender, EventArgs e)
         {
-            if (mySerialPort.IsOpen)
+            if (CommonRes.mySerialPort.IsOpen)
             {
                 btSend_Event(tbSend.Text, (bool)ck16Send.IsChecked);
             }
@@ -89,9 +101,9 @@ namespace ocean.UI
         private void btOpenCom_Click(object sender, RoutedEventArgs e)
         {
 
-            if (mySerialPort.IsOpen)
+            if (CommonRes.mySerialPort.IsOpen)
             {
-                mySerialPort.Close();
+                CommonRes.mySerialPort.Close();
                 cbBaudRate.IsEnabled = true;
                 cbDataBits.IsEnabled = true;
                 cbParity.IsEnabled = true;
@@ -103,35 +115,35 @@ namespace ocean.UI
             }
             else
             {
-                mySerialPort.PortName = cbPortName.Text;
-                mySerialPort.BaudRate = Convert.ToInt32(cbBaudRate.Text);
+                CommonRes.mySerialPort.PortName = cbPortName.Text;
+                CommonRes.mySerialPort.BaudRate = Convert.ToInt32(cbBaudRate.Text);
                 switch (Convert.ToString(cbParity.Text))
                 {
                     case "无":
-                        mySerialPort.Parity = Parity.None;
+                        CommonRes.mySerialPort.Parity = Parity.None;
                         break;
                     case "奇校验":
-                        mySerialPort.Parity = Parity.Odd;
+                        CommonRes.mySerialPort.Parity = Parity.Odd;
                         break;
                     case "偶校验":
-                        mySerialPort.Parity = Parity.Even;
+                        CommonRes.mySerialPort.Parity = Parity.Even;
                         break;
                 }
                 switch (Convert.ToInt32(cbStopBits.Text))
                 {
                     case 0:
-                        mySerialPort.StopBits = StopBits.None;
+                        CommonRes.mySerialPort.StopBits = StopBits.None;
                         break;
                     case 1:
-                        mySerialPort.StopBits = StopBits.One;
+                        CommonRes.mySerialPort.StopBits = StopBits.One;
                         break;
                     case 2:
-                        mySerialPort.StopBits = StopBits.Two;
+                        CommonRes.mySerialPort.StopBits = StopBits.Two;
                         break;
                 }
                 try
                 {
-                    mySerialPort.Open();
+                    CommonRes.mySerialPort.Open();
                 }
                 catch
                 {
@@ -180,9 +192,9 @@ namespace ocean.UI
         private void mySerialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
 
-            int n = mySerialPort.BytesToRead;
+            int n = CommonRes.mySerialPort.BytesToRead;
             byte[] buf = new byte[n];
-            mySerialPort.Read(buf, 0, n);
+            CommonRes.mySerialPort.Read(buf, 0, n);
             myUpdataHander = new HanderInterfaceUpdataDelegate(getData);
             txtGotoEndDelegate myGotoend = txtGotoEnd;
             HanderInterfaceUpdataDelegate myUpdata1 = new HanderInterfaceUpdataDelegate(txtReciveEvent);
@@ -277,25 +289,25 @@ namespace ocean.UI
 
         private void btSend_Event(string strSend, bool hexState)
         {
-            if (mySerialPort.IsOpen)
+            if (CommonRes.mySerialPort.IsOpen)
             {
                 if (hexState == false)
                 {
                     //if (ckAdvantechCmd.IsChecked == true) { strSend = strSend.ToUpper(); }
                     byte[] sendData = System.Text.Encoding.Default.GetBytes(strSend);
-                    mySerialPort.Write(sendData, 0, sendData.Length);
+                    CommonRes.mySerialPort.Write(sendData, 0, sendData.Length);
                     txtSend.Text = Convert.ToString(Convert.ToInt32(txtSend.Text) + Convert.ToInt32(sendData.Length));
                     if (ckAdvantechCmd.IsChecked == true)
                     {
                         byte[] sendAdvCmd = HexStringToByteArray("0D");
-                        mySerialPort.Write(sendAdvCmd, 0, 1);
+                        CommonRes.mySerialPort.Write(sendAdvCmd, 0, 1);
                         txtSend.Text = Convert.ToString(Convert.ToInt32(txtSend.Text) + Convert.ToInt32(sendData.Length));
                     }
                 }
                 else
                 {
                     byte[] sendHexData = HexStringToByteArray(strSend);
-                    mySerialPort.Write(sendHexData, 0, sendHexData.Length);
+                    CommonRes.mySerialPort.Write(sendHexData, 0, sendHexData.Length);
                 }
             }
             else
@@ -307,7 +319,7 @@ namespace ocean.UI
 
         private void ckAutoSend_Click(object sender, RoutedEventArgs e)
         {
-            if (mySerialPort.IsOpen == false)
+            if (CommonRes.mySerialPort.IsOpen == false)
             {
                 MessageBox.Show("串口未开！");
                 ckAutoSend.IsChecked = false;

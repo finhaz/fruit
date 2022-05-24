@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="debug_serial"
-      Loaded="Window_Loaded"
+      Loaded="Page_Loaded"
       >
 
     <Page.Resources>
@@ -66,7 +66,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26*"/>
-                        <ColumnDefinition Width="35*"/>
+                        <ColumnDefinition Width="40*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*"/>
@@ -104,7 +104,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Button Name="btClearView" Content="清空显示" Margin="10,5,53,0" Grid.Row="0" Click="btClearView_Click"></Button>
+                    <Button Name="btClearView" Content="清空显示" Margin="10,0,53,0" Grid.Row="0" Click="btClearView_Click"></Button>
                     <Button Visibility="Hidden" Content="停止显示" Grid.Row="1" Margin="10,0,53,0"></Button>
                     <Button Visibility="Hidden" Content="保存显示" Grid.Row="4" Margin="10,0,53,0"></Button>
                     <Button Visibility="Hidden" Content="更改" Grid.Row="4" Margin="74,0,10,0"></Button>

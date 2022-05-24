@@ -9,7 +9,8 @@ namespace ocean
 {
     public static class CommonRes
     {
-        public static SerialPort serialPort1 = new SerialPort();
+        //public static SerialPort serialPort1 = new SerialPort();
+        public static SerialPort mySerialPort = new SerialPort();
     }
 
 }

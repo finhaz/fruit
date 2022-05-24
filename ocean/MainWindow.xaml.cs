@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MenuItem = ocean.ViewModels.MenuItem;
 
+
 namespace ocean
 {
     /// <summary>
@@ -23,6 +24,8 @@ namespace ocean
     public partial class MainWindow: MetroWindow
     {
         private readonly Navigation.NavigationServiceEx navigationServiceEx;
+
+        
 
         public MainWindow()
         {
