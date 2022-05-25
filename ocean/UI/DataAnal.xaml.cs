@@ -24,5 +24,15 @@ namespace ocean.UI
         {
             InitializeComponent();
         }
+
+        private void btRUN_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btSTOP_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

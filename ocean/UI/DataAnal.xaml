@@ -9,6 +9,62 @@
       Title="DataAnal">
 
     <Grid>
-        <Label Content="data analysis"></Label>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="122"  MinWidth="122" MaxWidth="200"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26*"/>
+                    <ColumnDefinition Width="40*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="100*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="系统停止运行" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="25,0,0,0" />
+                <Button Name="btRUN" Content="运行" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="btRUN_Click" Width="80"/>
+                <Button Name="btSTOP" Content="停止" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="btSTOP_Click" Width="80"/>
+                <RichTextBox Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Left"></RichTextBox>
+
+            </Grid>
+            <Grid Grid.Column="2">
+
+                <TabControl>
+                    <TabItem Header="运行参数">
+                        <DataGrid>
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="#f5f5f5"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="BorderBrush" Value="Gray" />
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="FontSize" Value="18"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Header="调试参数"></TabItem>
+                    <TabItem Header="修正系数"></TabItem>
+                </TabControl>
+                
+            </Grid>
+
+        </Grid>
+
+
     </Grid>
 </Page>

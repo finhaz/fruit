@@ -28,7 +28,7 @@ namespace ocean.ViewModels
                 Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.UserSolid },
                 Label = "User",
                 NavigationType = typeof(UserPage),
-                NavigationDestination = new Uri("Views/UserPage.xaml", UriKind.RelativeOrAbsolute)
+                NavigationDestination = new Uri("UI/DataAnal.xaml", UriKind.RelativeOrAbsolute)
             });
             this.Menu.Add(new MenuItem()
             {
