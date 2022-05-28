@@ -37,58 +37,6 @@ namespace ocean.UI
         //SerialPort mySerialPort = new SerialPort();
         DispatcherTimer time1 = new DispatcherTimer();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            #region//串口设置初始化
-            //串口cbComName.Text
-            string[] portsName = SerialPort.GetPortNames();
-            Array.Sort(portsName);
-            cbPortName.ItemsSource = portsName;
-            cbPortName.Text = Convert.ToString(cbPortName.Items[0]);
-            //波特率cbBaudRate.Text
-            int[] baudRateData = { 4800, 9600, 19200, 38400, 43000, 56000 };
-            cbBaudRate.ItemsSource = baudRateData;
-            cbBaudRate.Text = Convert.ToString(cbBaudRate.Items[1]);
-            //检验位cbParity.Text
-            string[] parityBit = { "无", "奇校验", "偶校验" };
-            cbParity.ItemsSource = parityBit;
-            cbParity.Text = Convert.ToString(cbParity.Items[0]);
-            //数据位cbDataBits.Text
-            int[] dataBits = { 6, 7, 8 };
-            cbDataBits.ItemsSource = dataBits;
-            cbDataBits.Text = Convert.ToString(cbDataBits.Items[2]);
-            //停止位cbStopBits.Text
-            int[] stopBits = { 1, 2 };
-            cbStopBits.ItemsSource = stopBits;
-            cbStopBits.Text = Convert.ToString(cbStopBits.Items[0]);
-            #endregion
-            CommonRes.mySerialPort.DataReceived += new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            CommonRes.mySerialPort.Encoding = System.Text.Encoding.GetEncoding("GB2312");
-            //mySerialPort.Encoding = System.Text.Encoding.GetEncoding("UTF8");
-            ckHexState = (bool)ck16View.IsChecked;
-
-            time1.Tick += new EventHandler(time1_Tick);
-            tbkIntervalTime.Visibility = Visibility.Hidden;
-            tbIntervalTime.Visibility = Visibility.Hidden;
-            bdExpend.Visibility = Visibility.Hidden;
-
-
-            if(CommonRes.mySerialPort.IsOpen)
-            {
-                cbBaudRate.IsEnabled = false;
-                cbDataBits.IsEnabled = false;
-                cbParity.IsEnabled = false;
-                cbPortName.IsEnabled = false;
-                cbStopBits.IsEnabled = false;
-
-                btOpenCom.Content = "关闭串口";
-                comState.Style = (Style)this.FindResource("EllipseStyleGreen");
-            }
-
-        }
 
         private void time1_Tick(object sender, EventArgs e)
         {
@@ -495,5 +443,63 @@ namespace ocean.UI
             get16View((bool)ckAsciiView.IsChecked);
         }
 
+        private void Page_Loaded(object sender, EventArgs e)
+        {
+            #region//串口设置初始化
+            //串口cbComName.Text
+            try
+            {
+                string[] portsName = SerialPort.GetPortNames();
+                Array.Sort(portsName);
+                cbPortName.ItemsSource = portsName;
+                cbPortName.Text = Convert.ToString(cbPortName.Items[0]);
+            }
+            catch
+            {
+                cbPortName.Text = "暂无串口";
+            }
+            //波特率cbBaudRate.Text
+            int[] baudRateData = { 4800, 9600, 19200, 38400, 43000, 56000 };
+            cbBaudRate.ItemsSource = baudRateData;
+            cbBaudRate.Text = Convert.ToString(cbBaudRate.Items[1]);
+            //检验位cbParity.Text
+            string[] parityBit = { "无", "奇校验", "偶校验" };
+            cbParity.ItemsSource = parityBit;
+            cbParity.Text = Convert.ToString(cbParity.Items[0]);
+            //数据位cbDataBits.Text
+            int[] dataBits = { 6, 7, 8 };
+            cbDataBits.ItemsSource = dataBits;
+            cbDataBits.Text = Convert.ToString(cbDataBits.Items[2]);
+            //停止位cbStopBits.Text
+            int[] stopBits = { 1, 2 };
+            cbStopBits.ItemsSource = stopBits;
+            cbStopBits.Text = Convert.ToString(cbStopBits.Items[0]);
+            #endregion
+            CommonRes.mySerialPort.DataReceived += new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            CommonRes.mySerialPort.Encoding = System.Text.Encoding.GetEncoding("GB2312");
+            //mySerialPort.Encoding = System.Text.Encoding.GetEncoding("UTF8");
+            ckHexState = (bool)ck16View.IsChecked;
+
+            time1.Tick += new EventHandler(time1_Tick);
+            tbkIntervalTime.Visibility = Visibility.Hidden;
+            tbIntervalTime.Visibility = Visibility.Hidden;
+            bdExpend.Visibility = Visibility.Hidden;
+
+
+            if (CommonRes.mySerialPort.IsOpen)
+            {
+                cbBaudRate.IsEnabled = false;
+                cbDataBits.IsEnabled = false;
+                cbParity.IsEnabled = false;
+                cbPortName.IsEnabled = false;
+                cbStopBits.IsEnabled = false;
+
+                btOpenCom.Content = "关闭串口";
+                comState.Style = (Style)this.FindResource("EllipseStyleGreen");
+            }
+        }
     }
 }

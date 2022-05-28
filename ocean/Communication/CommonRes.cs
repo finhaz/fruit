@@ -11,6 +11,7 @@ namespace ocean
     {
         //public static SerialPort serialPort1 = new SerialPort();
         public static SerialPort mySerialPort = new SerialPort();
+        public static DataBase_Interface DB_Com = new DataBase_Interface();
     }
 
 }
