@@ -44,7 +44,7 @@
 
                 <TabControl>
                     <TabItem Header="运行参数" >
-                        <DataGrid x:Name="datashow"></DataGrid>
+                        <DataGrid x:Name="datashow" CellEditEnding="datashow_CellEditEnding" BeginningEdit="datashow_BeginningEdit"/>
                     </TabItem>
                     
                     <TabItem Header="调试参数">

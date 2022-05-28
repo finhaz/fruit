@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using SomeNameSpace;
 using MenuItem = ocean.ViewModels.MenuItem;
 
 
@@ -25,7 +27,7 @@ namespace ocean
     {
         private readonly Navigation.NavigationServiceEx navigationServiceEx;
 
-        
+
 
         public MainWindow()
         {
@@ -37,6 +39,11 @@ namespace ocean
 
             // Navigate to the home page.
             this.Loaded += (sender, args) => this.navigationServiceEx.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
+
+
+            CommonRes.dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
+            CommonRes.dt2 = DB_Access.GetDBTable("PARAMETER_SET");
+            CommonRes.dt3 = DB_Access.GetDBTable("PARAMETER_FACTOR");
 
         }
 

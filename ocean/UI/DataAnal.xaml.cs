@@ -22,6 +22,11 @@ namespace ocean.UI
     /// </summary>
     public partial class DataAnal : Page
     {
+
+        //DataTable dt1 = new DataTable();
+        //DataTable dt2 = new DataTable();
+        //DataTable dt3 = new DataTable();
+        int select_index;
         public DataAnal()
         {
             InitializeComponent();
@@ -40,15 +45,29 @@ namespace ocean.UI
 
         private void Page_Loaded(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt = DB_Access.GetDBTable("PARAMETER_RUN");
-            datashow.ItemsSource = dt.DefaultView;
+            
+            //dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
+            datashow.ItemsSource = CommonRes.dt1.DefaultView;
 
-            dt = DB_Access.GetDBTable("PARAMETER_SET");
-            dataset.ItemsSource = dt.DefaultView;
+            //dt2 = DB_Access.GetDBTable("PARAMETER_SET");
+            dataset.ItemsSource = CommonRes.dt2.DefaultView;
 
-            dt = DB_Access.GetDBTable("PARAMETER_FACTOR");
-            datafactor.ItemsSource = dt.DefaultView;
+            //dt3 = DB_Access.GetDBTable("PARAMETER_FACTOR");
+            datafactor.ItemsSource = CommonRes.dt3.DefaultView;
+        }
+
+
+        private void datashow_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            string newValue = (e.EditingElement as TextBox).Text;
+
+        }
+
+        private void datashow_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            select_index = datashow.SelectedIndex;
+            string oldValue = datashow.SelectedCells.ToString();
+            
         }
     }
 }
