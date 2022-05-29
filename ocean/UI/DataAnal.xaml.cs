@@ -45,8 +45,11 @@ namespace ocean.UI
 
         private void Page_Loaded(object sender, EventArgs e)
         {
-            
+            Binding binding=new Binding();
             //dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
+            binding.Source = CommonRes.dt1.DefaultView;
+            binding.Mode = BindingMode.TwoWay;
+
             datashow.ItemsSource = CommonRes.dt1.DefaultView;
 
             //dt2 = DB_Access.GetDBTable("PARAMETER_SET");
@@ -60,7 +63,7 @@ namespace ocean.UI
         private void datashow_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             string newValue = (e.EditingElement as TextBox).Text;
-
+            DB_Access.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
         }
 
         private void datashow_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
