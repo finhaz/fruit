@@ -19,6 +19,7 @@
                                        VerticalAlignment="Top"
                                        Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
                                        Kind="InfoCircleSolid" />
+        <TextBox Text="基于mahapp，感谢CSDN的多位博主的博客"></TextBox>
 
     </Grid>
 </Page>

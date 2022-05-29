@@ -24,6 +24,6 @@
         <TextBlock Margin="24"
                    HorizontalAlignment="Center"
                    FontSize="48"
-                   Text="Frame Navigation" />
+                   Text="friut and ocean" />
     </StackPanel>
 </Page>
