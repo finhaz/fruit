@@ -14,8 +14,9 @@
         <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="122"  MinWidth="122" MaxWidth="200"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="90*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -48,17 +49,23 @@
                                   CellEditEnding="datashow_CellEditEnding" 
                                   BeginningEdit="datashow_BeginningEdit"
                                   ItemsSource="{Binding dtrun, Mode=TwoWay}">
+
                         </DataGrid>
                     </TabItem>
                     
                     <TabItem Header="调试参数">
                         <DataGrid x:Name="dataset"
-                                  ItemsSource="{Binding dtset,Mode=TwoWay}">                           
+                                  CellEditEnding="dataset_CellEditEnding" 
+                                  BeginningEdit="dataset_BeginningEdit"
+                                  ItemsSource="{Binding dtset,Mode=TwoWay}">
+                            
                         </DataGrid>
                     </TabItem>
                     
                     <TabItem Header="修正系数">
                         <DataGrid x:Name="datafactor"
+                                  CellEditEnding="datafactor_CellEditEnding" 
+                                  BeginningEdit="datafactor_BeginningEdit"
                                   ItemsSource="{Binding dtfactor,Mode=TwoWay}">
                         </DataGrid>
                     </TabItem>
