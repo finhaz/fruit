@@ -22,14 +22,14 @@ namespace ocean.UI
     /// </summary>
     public partial class DataAnal : Page
     {
-
-        //DataTable dt1 = new DataTable();
-        //DataTable dt2 = new DataTable();
-        //DataTable dt3 = new DataTable();
+        public DataTable dtrun { get; set; }
+        public DataTable dtset { get; set; }
+        public DataTable dtfactor { get; set; }
         int select_index;
         public DataAnal()
         {
             InitializeComponent();
+            //this.DataContext = this;
         }
 
 
@@ -45,18 +45,20 @@ namespace ocean.UI
 
         private void Page_Loaded(object sender, EventArgs e)
         {
-            Binding binding=new Binding();
             //dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
-            binding.Source = CommonRes.dt1.DefaultView;
-            binding.Mode = BindingMode.TwoWay;
-
-            datashow.ItemsSource = CommonRes.dt1.DefaultView;
+            //datashow.ItemsSource = CommonRes.dt1.DefaultView;
 
             //dt2 = DB_Access.GetDBTable("PARAMETER_SET");
-            dataset.ItemsSource = CommonRes.dt2.DefaultView;
+            //dataset.ItemsSource = CommonRes.dt2.DefaultView;
 
             //dt3 = DB_Access.GetDBTable("PARAMETER_FACTOR");
-            datafactor.ItemsSource = CommonRes.dt3.DefaultView;
+            //datafactor.ItemsSource = CommonRes.dt3.DefaultView;
+
+            dtrun = CommonRes.dt1;
+
+            dtset = CommonRes.dt2;
+
+            dtfactor = CommonRes.dt3;
         }
 
 

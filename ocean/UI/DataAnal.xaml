@@ -47,15 +47,20 @@
                         <DataGrid x:Name="datashow" 
                                   CellEditEnding="datashow_CellEditEnding" 
                                   BeginningEdit="datashow_BeginningEdit"
-                                  />
+                                  ItemsSource="{Binding dtrun, Mode=TwoWay}">
+                        </DataGrid>
                     </TabItem>
                     
                     <TabItem Header="调试参数">
-                        <DataGrid x:Name="dataset"></DataGrid>
+                        <DataGrid x:Name="dataset"
+                                  ItemsSource="{Binding dtset,Mode=TwoWay}">                           
+                        </DataGrid>
                     </TabItem>
                     
                     <TabItem Header="修正系数">
-                        <DataGrid x:Name="datafactor"></DataGrid>
+                        <DataGrid x:Name="datafactor"
+                                  ItemsSource="{Binding dtfactor,Mode=TwoWay}">
+                        </DataGrid>
                     </TabItem>
                 </TabControl>
                 
