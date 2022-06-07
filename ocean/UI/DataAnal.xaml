@@ -62,7 +62,17 @@
                                   CellEditEnding="dataset_CellEditEnding" 
                                   BeginningEdit="dataset_BeginningEdit"
                                   ItemsSource="{Binding dtset,Mode=TwoWay}">
-                            
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="设定 "  Tag="{Binding id}"  Click="MButton2_Click" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
                     
@@ -71,6 +81,19 @@
                                   CellEditEnding="datafactor_CellEditEnding" 
                                   BeginningEdit="datafactor_BeginningEdit"
                                   ItemsSource="{Binding dtfactor,Mode=TwoWay}">
+                            
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="设定 "  Tag="{Binding id}" Click="MButton3_Click"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+
                         </DataGrid>
                     </TabItem>
                 </TabControl>
