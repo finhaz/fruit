@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            //System.Text.ASCIIEncoding.ASCIIEncodingSealed asciiEncodingSealed1 = new System.Text.ASCIIEncoding.ASCIIEncodingSealed();
+            System.Text.DecoderReplacementFallback decoderReplacementFallback1 = new System.Text.DecoderReplacementFallback();
+            System.Text.EncoderReplacementFallback encoderReplacementFallback1 = new System.Text.EncoderReplacementFallback();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -411,7 +414,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(93, 52);
             this.button6.TabIndex = 14;
-            this.button6.Text = "PSO";
+            this.button6.Text = "算法";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -421,6 +424,9 @@
             this.serialPort1.DataBits = 8;
             this.serialPort1.DiscardNull = false;
             this.serialPort1.DtrEnable = false;
+            //asciiEncodingSealed1.DecoderFallback = decoderReplacementFallback1;
+            //asciiEncodingSealed1.EncoderFallback = encoderReplacementFallback1;
+            //this.serialPort1.Encoding = asciiEncodingSealed1;
             this.serialPort1.Handshake = System.IO.Ports.Handshake.None;
             this.serialPort1.NewLine = "\n";
             this.serialPort1.Parity = System.IO.Ports.Parity.None;

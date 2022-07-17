@@ -12,6 +12,10 @@
     <ApplicationIcon>mooncell.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Fish_AI.cs" />
+    <Compile Remove="IPSO_AI.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="2.ico" />
     <Content Include="moon.ico" />
     <Content Include="mooncell.ico" />

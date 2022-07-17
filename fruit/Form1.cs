@@ -41,8 +41,8 @@ namespace fruit
         Form3 f3 = new Form3();
         private TestBind model = new TestBind();
         PSO_analysis PSO_v = new PSO_analysis();
-        IPSO_analysis IPSO_v = new IPSO_analysis();
-        Fish_Solution Fish_v = new Fish_Solution();
+        //IPSO_analysis IPSO_v = new IPSO_analysis();
+        //Fish_Solution Fish_v = new Fish_Solution();
         Message NYS_com= new Message();
         Message_modbus FCOM2= new Message_modbus();
         DataBase_Interface DB_Com = new DataBase_Interface();
@@ -311,9 +311,9 @@ namespace fruit
                     n_dsp = gbuffer[7];
                     for (int i_k = 0; i_k < 9; i_k++)//字节重新拼接为浮点数
                     {
-                        //PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
+                        PSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
 
-                        IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
+                        //IPSO_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
 
                         //Fish_v.u_dsp[n_dsp - 1, i_k] = BitConverter.ToSingle(gbuffer, 8 + 4 * i_k);
 
@@ -321,18 +321,19 @@ namespace fruit
                     }
                     if (n_dsp == Set_Num_DSP)
                     {
-                        /*
+                        
                         Thread th = new Thread(new ThreadStart(PSO_v.cale_pso)); //创建PSO线程
                         th.Start(); //启动线程                          
                         Thread th1 = new Thread(new ThreadStart(update_UI_PSO)); //创建UI线程
                         th1.Start(); //启动线程
-                        */
+                        
 
-
+                        /*
                         Thread th = new Thread(new ThreadStart(IPSO_v.cale_pso)); //创建IPSO线程
                         th.Start(); //启动线程                          
                         Thread th1 = new Thread(new ThreadStart(update_UI_IPSO)); //创建UI线程
                         th1.Start(); //启动线程
+                        */
 
 
                         /*
@@ -529,6 +530,7 @@ namespace fruit
 
         }
 
+        /*
         private void update_UI_IPSO()
         {
             Control.CheckForIllegalCrossThreadCalls = false;//没使用数据绑定前，此代码不可注释
@@ -566,7 +568,9 @@ namespace fruit
             }
 
         }
+        */
 
+        /*
         private void update_UI_FishAI()
         {
             Control.CheckForIllegalCrossThreadCalls = false;//没使用数据绑定前，此代码不可注释
@@ -602,6 +606,7 @@ namespace fruit
             }
 
         }
+        */
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -637,7 +642,7 @@ namespace fruit
             //th.Start(); //启动线程
 
             PSO_v.pso_init = false;
-            IPSO_v.pso_init = false;
+            //IPSO_v.pso_init = false;
             int send_num=0;
 
             if (!serialPort1.IsOpen)
