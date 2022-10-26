@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            //System.Text.ASCIIEncoding.ASCIIEncodingSealed asciiEncodingSealed1 = new System.Text.ASCIIEncoding.ASCIIEncodingSealed();
-            System.Text.DecoderReplacementFallback decoderReplacementFallback1 = new System.Text.DecoderReplacementFallback();
-            System.Text.EncoderReplacementFallback encoderReplacementFallback1 = new System.Text.EncoderReplacementFallback();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -69,7 +66,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.button6 = new System.Windows.Forms.Button();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -294,7 +290,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(37, 570);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1038, 204);
+            this.richTextBox1.Size = new System.Drawing.Size(1038, 228);
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -419,29 +415,6 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // serialPort1
-            // 
-            this.serialPort1.BaudRate = 9600;
-            this.serialPort1.DataBits = 8;
-            this.serialPort1.DiscardNull = false;
-            this.serialPort1.DtrEnable = false;
-            //asciiEncodingSealed1.DecoderFallback = decoderReplacementFallback1;
-            //asciiEncodingSealed1.EncoderFallback = encoderReplacementFallback1;
-            //this.serialPort1.Encoding = asciiEncodingSealed1;
-            this.serialPort1.Handshake = System.IO.Ports.Handshake.None;
-            this.serialPort1.NewLine = "\n";
-            this.serialPort1.Parity = System.IO.Ports.Parity.None;
-            this.serialPort1.ParityReplace = ((byte)(63));
-            this.serialPort1.PortName = "COM1";
-            this.serialPort1.ReadBufferSize = 4096;
-            this.serialPort1.ReadTimeout = -1;
-            this.serialPort1.ReceivedBytesThreshold = 1;
-            this.serialPort1.RtsEnable = false;
-            this.serialPort1.StopBits = System.IO.Ports.StopBits.One;
-            this.serialPort1.WriteBufferSize = 2048;
-            this.serialPort1.WriteTimeout = -1;
-            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
-            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
@@ -468,9 +441,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(45, 543);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 17);
+            this.label4.Size = new System.Drawing.Size(80, 17);
             this.label4.TabIndex = 17;
-            this.label4.Text = "报文";
+            this.label4.Text = "报文显示区域";
             // 
             // Form1
             // 
@@ -548,7 +521,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.Button button6;
-        private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

@@ -17,6 +17,7 @@ namespace fruit
 
     public partial class Form1 : Form
     {
+        SerialPort serialPort1=new SerialPort();
         bool brun = false;
         bool bshow =false;
         bool bmodify = false;
