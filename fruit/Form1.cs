@@ -624,7 +624,7 @@ namespace fruit
                 if (Protocol_num == 1)
                 {
                     FCOM2.Monitor_Get_03(44,50);
-                    serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                    serialPort1.Write(FCOM2.sendbf, 0, 8);
                 }
 
                 timer1.Enabled = true;
@@ -675,7 +675,7 @@ namespace fruit
             {
                 //1号机1通道
                 FCOM2.Monitor_Run(1, 128, brun);
-                send_num = FCOM2.sendbf[0]+1;
+                send_num = 8;
                 serialPort1.Write(FCOM2.sendbf, 0, send_num);
             }
 
@@ -776,7 +776,7 @@ namespace fruit
 
                         FCOM2.Monitor_Get_03(0, DB_Com.runnum);
 
-                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                        serialPort1.Write(FCOM2.sendbf, 0, 8);
                     }
 
                 }
@@ -833,7 +833,7 @@ namespace fruit
                             flag_upper_first = false;
                             MessageBox.Show("参数初始化完成！！");
                         }
-                        serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                        serialPort1.Write(FCOM2.sendbf, 0, 8);
                     }
                 }
 
@@ -930,7 +930,7 @@ namespace fruit
                         else if (Protocol_num==1)
                         {
                             FCOM2.Monitor_Set_06(tempsn, i);
-                            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                            serialPort1.Write(FCOM2.sendbf, 0, 8);
                         }
 
                         DB_Com.data[tempsn].VALUE = new_v;
@@ -1022,7 +1022,7 @@ namespace fruit
                         else if (Protocol_num == 1)
                         {
                             FCOM2.Monitor_Set_06(tempsn, i);
-                            serialPort1.Write(FCOM2.sendbf, 0, FCOM2.sendbf[0] + 1);
+                            serialPort1.Write(FCOM2.sendbf, 0, 8);
                         }
 
                         DB_Com.data[tempsn].VALUE = i;

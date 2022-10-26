@@ -72,6 +72,7 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -108,7 +109,7 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(774, 900);
+            this.dataGridView1.Size = new System.Drawing.Size(774, 506);
             this.dataGridView1.TabIndex = 1;
             // 
             // Column1
@@ -157,7 +158,7 @@
             this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 27;
-            this.dataGridView2.Size = new System.Drawing.Size(772, 897);
+            this.dataGridView2.Size = new System.Drawing.Size(772, 506);
             this.dataGridView2.TabIndex = 2;
             this.dataGridView2.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView2_CellBeginEdit);
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
@@ -209,7 +210,7 @@
             this.dataGridView3.RowHeadersVisible = false;
             this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowTemplate.Height = 27;
-            this.dataGridView3.Size = new System.Drawing.Size(775, 910);
+            this.dataGridView3.Size = new System.Drawing.Size(775, 506);
             this.dataGridView3.TabIndex = 3;
             this.dataGridView3.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView3_CellBeginEdit);
             this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick);
@@ -290,10 +291,10 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(10, 484);
+            this.richTextBox1.Location = new System.Drawing.Point(37, 570);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(256, 361);
+            this.richTextBox1.Size = new System.Drawing.Size(1038, 204);
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -304,11 +305,11 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.ItemSize = new System.Drawing.Size(0, 21);
-            this.tabControl1.Location = new System.Drawing.Point(292, 33);
+            this.tabControl1.Location = new System.Drawing.Point(289, 33);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(786, 936);
+            this.tabControl1.Size = new System.Drawing.Size(786, 506);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -318,7 +319,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPage1.Size = new System.Drawing.Size(778, 907);
+            this.tabPage1.Size = new System.Drawing.Size(778, 477);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "运行参数";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -330,7 +331,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPage2.Size = new System.Drawing.Size(778, 907);
+            this.tabPage2.Size = new System.Drawing.Size(778, 477);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "调试参数";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -342,7 +343,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPage3.Size = new System.Drawing.Size(778, 907);
+            this.tabPage3.Size = new System.Drawing.Size(778, 477);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "修正系数";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -462,11 +463,21 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "协议选择";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(45, 543);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(32, 17);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "报文";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1148, 881);
+            this.ClientSize = new System.Drawing.Size(1084, 810);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button6);
@@ -540,6 +551,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

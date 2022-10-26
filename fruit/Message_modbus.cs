@@ -21,23 +21,22 @@ namespace fruit
         {
             int crc;
             Array.Clear(sendbf, 0, sendbf.Length);
-            sendbf[0] = 0x08;
-            sendbf[1] = 0x01;
-            sendbf[2] = 0x03;
+            sendbf[0] = 0x01;
+            sendbf[1] = 0x03;
             //寄存器地址
             byte[] temp_i = BitConverter.GetBytes(sn);            
-            sendbf[3] = temp_i[1];
-            sendbf[4] = temp_i[0];
+            sendbf[2] = temp_i[1];
+            sendbf[3] = temp_i[0];
             //读取数据个数
             temp_i = BitConverter.GetBytes(num);
-            sendbf[5] = temp_i[1]; 
-            sendbf[6] = temp_i[0];
+            sendbf[4] = temp_i[1]; 
+            sendbf[5] = temp_i[0];
 
-            crc = crc16_ccitt(sendbf, 6,1);
+            crc = crc16_ccitt(sendbf, 6,0);
 
             temp_i = BitConverter.GetBytes(crc);
-            sendbf[7] = temp_i[0];
-            sendbf[8] = temp_i[1];
+            sendbf[6] = temp_i[0];
+            sendbf[7] = temp_i[1];
         }
 
         public void Monitor_Set_06(int sn,float send_value)
@@ -45,46 +44,45 @@ namespace fruit
             int crc = 0;
             Int16 svalue = (short)send_value;
             Array.Clear(sendbf, 0, sendbf.Length);
-            sendbf[0] = 0x08;
-            sendbf[1] = 0x01;
-            sendbf[2] = 0x06;
+            sendbf[0] = 0x01;
+            sendbf[1] = 0x06;
             //寄存器地址
             byte[] temp_i = BitConverter.GetBytes(sn);
-            sendbf[3] = temp_i[1];
-            sendbf[4] = temp_i[0];
+            sendbf[2] = temp_i[1];
+            sendbf[3] = temp_i[0];
 
             temp_i = BitConverter.GetBytes(svalue);
-            sendbf[5] = temp_i[1];
-            sendbf[6] = temp_i[0];
-            crc = crc16_ccitt(sendbf, 6,1);
+            sendbf[4] = temp_i[1];
+            sendbf[5] = temp_i[0];
+            crc = crc16_ccitt(sendbf, 6,0);
 
             temp_i = BitConverter.GetBytes(crc);
-            sendbf[7] = temp_i[0];
-            sendbf[8] = temp_i[1];
+            sendbf[6] = temp_i[0];
+            sendbf[7] = temp_i[1];
         }
 
         public void Monitor_Run(byte machine,int adr, bool brun)
         {
             int crc;
-            sendbf[0] = 0x08;
-            sendbf[1] = machine;
-            sendbf[2] = 0x06;
+            Array.Clear(sendbf, 0, sendbf.Length);
+            sendbf[0] = machine;
+            sendbf[1] = 0x06;
             byte[] temp_i = BitConverter.GetBytes(adr);
 
-            sendbf[3] = temp_i[1];
-            sendbf[4] = temp_i[0];
+            sendbf[2] = temp_i[1];
+            sendbf[3] = temp_i[0];
 
-            sendbf[5] = 0x00;
+            sendbf[4] = 0x00;
             if (brun)
-                sendbf[6] = 0xaa;
+                sendbf[5] = 0xaa;
             else
-                sendbf[6] = 0x55;
+                sendbf[5] = 0x55;
 
-            crc = crc16_ccitt(sendbf,6,1);
+            crc = crc16_ccitt(sendbf,6,0);
 
             temp_i=BitConverter.GetBytes(crc);
-            sendbf[7] = temp_i[0];
-            sendbf[8] = temp_i[1];
+            sendbf[6] = temp_i[0];
+            sendbf[7] = temp_i[1];
         }
 
 
