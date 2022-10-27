@@ -38,8 +38,13 @@
                         Click="btRUN_Click" Width="80"/>
                 <Button Name="btSTOP" Content="停止" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="btSTOP_Click" Width="80"/>
-                <ComboBox Name="cbStopBits" FontSize="10" Grid.Row="4" Margin="0,1,0,1" Grid.ColumnSpan="2"/>
-                <TextBlock Text="通讯协议选择" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3" Grid.ColumnSpan="2" Margin="25,0,0,0" />
+                <Button Name="btShow" Content="数据采集" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="btShow_Click" Width="80"/>
+                <TextBlock Text="通讯协议选择" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="4" Grid.ColumnSpan="2" Margin="25,0,0,0" />
+                <ComboBox Name="cbProcho" FontSize="10" Grid.Row="5" Margin="0,1,0,1" Grid.ColumnSpan="2" SelectionChanged="cbProcho_SelectionChanged">
+                    <ComboBoxItem >FE协议</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Modbus协议</ComboBoxItem>
+                </ComboBox>
                 <RichTextBox Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Left"></RichTextBox>
 
             </Grid>

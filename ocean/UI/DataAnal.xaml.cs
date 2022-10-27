@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using SomeNameSpace;
 
 namespace ocean.UI
@@ -53,13 +54,16 @@ namespace ocean.UI
         int mrow;
         int Num_time = 0;
         int Num_DSP = 0;
-        int Protocol_num = 0;
+        int Protocol_num = 1;
         static int Set_Num_DSP = 2;//代表有机子数
 
 
         //通讯协议
         Message NYS_com = new Message();
         Message_modbus FCOM2 = new Message_modbus();
+
+        private DispatcherTimer mDataTimer = null; //定时器
+        private long timerExeCount = 0; //定时器执行次数
 
         public DataAnal()
         {
@@ -274,6 +278,32 @@ namespace ocean.UI
             CommonRes.dt3 = dtfactor;
         }
 
+        private void btShow_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("数据采集开始");
+            if(CommonRes.mySerialPort.IsOpen==true)
+            {
+                if(Protocol_num == 0)
+                {
 
+                }
+                else
+                {
+
+                }
+            }
+
+        }
+
+
+        private void cbProcho_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch(cbProcho.SelectedIndex)
+            {
+                case 0: Protocol_num = 0; break;
+                case 1: Protocol_num = 1; break;
+                default: Protocol_num = 0; break;
+            }
+        }
     }
 }
