@@ -27,13 +27,16 @@ namespace ocean.UI
         public DataTable dtrun { get; set; }
         public DataTable dtset { get; set; }
         public DataTable dtfactor { get; set; }
+        
+
+        //数据库对接
         int select_index;
-        // DataGridTemplateColumn col1 = new DataGridTemplateColumn();
+        DataBase_Interface DB_Com = new DataBase_Interface();
+        string newValue;
 
         public DataAnal()
         {
             InitializeComponent();
-            //this.DataContext = this;
         }
 
 
@@ -134,8 +137,6 @@ namespace ocean.UI
         private void datashow_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             select_index = datashow.SelectedIndex;
-            string oldValue = datashow.SelectedCells.ToString();
-
         }
 
 
@@ -150,7 +151,7 @@ namespace ocean.UI
 
         private void datashow_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            string newValue = (e.EditingElement as TextBox).Text;
+            newValue = (e.EditingElement as TextBox).Text;
 
         }
 
@@ -166,52 +167,32 @@ namespace ocean.UI
 
         private void MButton2_Click(object sender, RoutedEventArgs e)
         {
-            DB_Access.UpdateDBTable(dtset, "PARAMETER_SET");
-            //dataset.Columns.Remove(col1);
+            float value=Convert.ToSingle(newValue);
+            DB_Com.DataBase_SET_Save("PARAMETER_SET", value, (byte)select_index);
+
         }
 
 
         private void dataset_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            string newValue = (e.EditingElement as TextBox).Text;
-
-            /*
-            FrameworkElementFactory factory1 = new FrameworkElementFactory(typeof(Button));
-            //b1.Mode = BindingMode.TwoWay;
-            Binding b1 = new Binding("count");
-            //b1.Mode = BindingMode.
-
-            factory1.SetValue(Button.ContentProperty, "修改");
-            // factory1.SetValue(Button.DataContextProperty,b1);
-            factory1.AddHandler(Button.ClickEvent, new RoutedEventHandler(MButton2_Click));
-            DataTemplate cellTemplate1 = new DataTemplate();
-            cellTemplate1.VisualTree = factory1;
-            col1.CellTemplate = cellTemplate1;
-            dataset.Columns.Add(col1);
-            */
-
-
+            newValue = (e.EditingElement as TextBox).Text;
         }
 
 
         private void datafactor_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             select_index = datashow.SelectedIndex;
-
         }
 
 
         private void MButton3_Click(object sender, RoutedEventArgs e)
         {
             DB_Access.UpdateDBTable(dtfactor, "PARAMETER_FACTOR");
-           // datafactor.Columns.Remove(col1);
         }
 
         private void datafactor_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            string newValue = (e.EditingElement as TextBox).Text;
-           
-
+            newValue = (e.EditingElement as TextBox).Text;          
         }
 
 
