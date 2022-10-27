@@ -37,7 +37,7 @@ namespace ocean.UI
         string newValue;
 
         bool brun = false;
-        //bool bshow = false;
+        bool bshow = false;
         //bool bmodify = false;
         //bool Initialized = true;//调试参数与修正系数核验标志位
         //bool flag_uncon = false;//上下参数不一致标志位
@@ -62,13 +62,78 @@ namespace ocean.UI
         Message NYS_com = new Message();
         Message_modbus FCOM2 = new Message_modbus();
 
+        //定时器
         private DispatcherTimer mDataTimer = null; //定时器
         private long timerExeCount = 0; //定时器执行次数
+        DateTime s1;
+        DateTime s2;
 
         public DataAnal()
         {
             InitializeComponent();
         }
+
+
+        private void InitTimer()
+        {
+            if (mDataTimer == null)
+            {
+                mDataTimer = new DispatcherTimer();
+                mDataTimer.Tick += new EventHandler(DataTimer_Tick);
+                mDataTimer.Interval = TimeSpan.FromSeconds(10);
+            }
+        }
+        private void DataTimer_Tick(object sender, EventArgs e)
+        {
+            s2 = DateTime.Now;
+            s1 = DateTime.Now;
+            ++timerExeCount;
+
+            if (bshow == true)
+            {
+                if (Protocol_num == 0)
+                {
+                    //if (sn == DB_Com.runnum)
+                    //{
+                    //    sn = 0;
+                    //    DB_Com.DataBase_RUN_Save();
+                    //}
+
+                    NYS_com.Monitor_Get((byte)sn, (byte)DB_Com.data[sn].COMMAND);
+
+                    CommonRes.mySerialPort.Write(NYS_com.sendbf, 0, NYS_com.sendbf[4] + 5);
+
+                    sn = sn + 1;
+
+                }
+                else if (Protocol_num == 1)
+                {
+                    //DB_Com.DataBase_RUN_Save();
+
+                    FCOM2.Monitor_Get_03(0, DB_Com.runnum);
+
+                    CommonRes.mySerialPort.Write(FCOM2.sendbf, 0, 8);
+                }
+
+            }
+        }
+
+        public void StartTimer()
+        {
+            if (mDataTimer != null && mDataTimer.IsEnabled == false)
+            {
+                mDataTimer.Start();
+                s1 = DateTime.Now;
+            }
+        }
+        public void StopTimer()
+        {
+            if (mDataTimer != null && mDataTimer.IsEnabled == true)
+            {
+                mDataTimer.Stop();
+            }
+        }
+
 
 
         private void btRUN_Click(object sender, RoutedEventArgs e)
@@ -168,7 +233,7 @@ namespace ocean.UI
 
             dtfactor = CommonRes.dt3;
 
-            //col1.Header = "操作";
+            InitTimer();
         }
 
 
@@ -280,17 +345,24 @@ namespace ocean.UI
 
         private void btShow_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("数据采集开始");
-            if(CommonRes.mySerialPort.IsOpen==true)
+            if (CommonRes.mySerialPort.IsOpen == true)
             {
-                if(Protocol_num == 0)
+                bshow = !bshow;
+                if (bshow)
                 {
-
+                    btShow.Content = "停止采集";
+                    //MessageBox.Show("数据采集开始");
+                    StartTimer();
                 }
                 else
                 {
-
+                    btShow.Content = "开始采集";
+                    StopTimer();
                 }
+            }
+            else
+            {
+                MessageBox.Show("打开串口！");
             }
 
         }
