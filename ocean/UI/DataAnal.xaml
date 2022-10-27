@@ -33,15 +33,13 @@
                     <RowDefinition Height="25*"/>
                     <RowDefinition Height="100*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="系统停止运行" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="25,0,0,0" />
+                <TextBlock Name="textBox1" Text="系统停止运行" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="25,0,0,0" />
                 <Button Name="btRUN" Content="运行" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="btRUN_Click" Width="80"/>
                 <Button Name="btSTOP" Content="停止" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="btSTOP_Click" Width="80"/>
                 <ComboBox Name="cbStopBits" FontSize="10" Grid.Column="1" Grid.Row="3" Margin="2,1,10,1"/>
                 <TextBox Grid.Row="3" Text="协议"></TextBox>
-                <CheckBox Name="edit_choice" Grid.Row="4" ></CheckBox>
-                <TextBox Grid.Row="4" Text="编辑模式" Grid.ColumnSpan="2" HorizontalAlignment="Center"></TextBox>
                 <RichTextBox Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Left"></RichTextBox>
 
             </Grid>
