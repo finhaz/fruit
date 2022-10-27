@@ -167,7 +167,13 @@ namespace ocean.UI
 
         private void MButton2_Click(object sender, RoutedEventArgs e)
         {
-            float value=Convert.ToSingle(newValue);
+            //读取选中行
+            var x = dataset.SelectedIndex;
+            string y = dtset.Rows[0][0].ToString();
+            int z = Convert.ToInt32(y);
+            select_index = x + z;
+            string val = dtset.Rows[x][5].ToString();
+            float value=Convert.ToSingle(val);
             DB_Com.DataBase_SET_Save("PARAMETER_SET", value, (byte)select_index);
 
         }
