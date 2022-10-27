@@ -431,5 +431,10 @@ namespace ocean.UI
             
             show_text.Text+=para;
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            CommonRes.mySerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
+        }
     }
 }

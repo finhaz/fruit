@@ -501,5 +501,10 @@ namespace ocean.UI
                 comState.Style = (Style)this.FindResource("EllipseStyleGreen");
             }
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            CommonRes.mySerialPort.DataReceived-= new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
+        }
     }
 }
