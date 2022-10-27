@@ -13,7 +13,7 @@
         GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
         WindowStartupLocation="CenterScreen"
         WindowTransitionsEnabled="False"
-        mc:Ignorable="d"          
+        mc:Ignorable="d" Closing="MetroWindow_Closing"          
         >
     <Controls:MetroWindow.DataContext>
         <viewModels:ShellViewModel />

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using ocean.UI;
 using SomeNameSpace;
 using MenuItem = ocean.ViewModels.MenuItem;
 
@@ -87,5 +88,12 @@ namespace ocean
             this.navigationServiceEx.GoBack();
         }
 
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBox.Show("数据将保存！");
+            //DB_Access.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
+            DB_Access.UpdateDBTable(CommonRes.dt2, "PARAMETER_SET");
+            DB_Access.UpdateDBTable(CommonRes.dt3, "PARAMETER_FACTOR");
+        }
     }
 }

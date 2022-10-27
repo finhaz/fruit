@@ -186,7 +186,7 @@ namespace ocean.UI
         private void datashow_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             newValue = (e.EditingElement as TextBox).Text;
-
+            
         }
 
         private void dataset_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -229,12 +229,12 @@ namespace ocean.UI
         private void dataset_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             newValue = (e.EditingElement as TextBox).Text;
+            CommonRes.dt2 = dtset;
         }
 
 
         private void datafactor_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            
+        {            
             var x = datafactor.SelectedIndex;
         }
 
@@ -270,7 +270,8 @@ namespace ocean.UI
 
         private void datafactor_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            newValue = (e.EditingElement as TextBox).Text;          
+            newValue = (e.EditingElement as TextBox).Text;
+            CommonRes.dt3 = dtfactor;
         }
 
 

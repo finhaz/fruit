@@ -38,8 +38,8 @@
                         Click="btRUN_Click" Width="80"/>
                 <Button Name="btSTOP" Content="停止" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="btSTOP_Click" Width="80"/>
-                <ComboBox Name="cbStopBits" FontSize="10" Grid.Column="1" Grid.Row="3" Margin="2,1,10,1"/>
-                <TextBox Grid.Row="3" Text="协议"></TextBox>
+                <ComboBox Name="cbStopBits" FontSize="10" Grid.Row="4" Margin="0,1,0,1" Grid.ColumnSpan="2"/>
+                <TextBlock Text="通讯协议选择" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3" Grid.ColumnSpan="2" Margin="25,0,0,0" />
                 <RichTextBox Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Left"></RichTextBox>
 
             </Grid>
@@ -54,7 +54,7 @@
 
                         </DataGrid>
                     </TabItem>
-                    
+
                     <TabItem Header="调试参数">
                         <DataGrid x:Name="dataset"
                                   CellEditEnding="dataset_CellEditEnding" 
@@ -73,13 +73,13 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
-                    
+
                     <TabItem Header="修正系数">
                         <DataGrid x:Name="datafactor"
                                   CellEditEnding="datafactor_CellEditEnding" 
                                   BeginningEdit="datafactor_BeginningEdit"
                                   ItemsSource="{Binding dtfactor,Mode=TwoWay}">
-                            
+
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
@@ -95,7 +95,7 @@
                         </DataGrid>
                     </TabItem>
                 </TabControl>
-                
+
             </Grid>
 
         </Grid>
