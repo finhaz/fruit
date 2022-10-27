@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -68,7 +70,6 @@ namespace ocean.UI
         private long timerExeCount = 0; //定时器执行次数
         DateTime s1;
         DateTime s2;
-
 
 
         public DataAnal()
@@ -187,13 +188,9 @@ namespace ocean.UI
                 }
                 txt += ' ';
             }
-            //txt += '\r';
-            //txt += '\n';
-            Run r = new Run(txt);
-            Paragraph para = new Paragraph();
-            para.Inlines.Add(r);
-            //show_text.Document.Blocks.Clear();
-            show_text.Document.Blocks.Add(para);              
+            txt += '\r';
+            txt += '\n';
+            show_text.Text+=txt;              
             
 
         }
@@ -231,13 +228,9 @@ namespace ocean.UI
                 }
                 txt += ' ';
             }
-            //txt += '\r';
-            //txt += '\n';
-            Run r = new Run(txt);
-            Paragraph para = new Paragraph();
-            para.Inlines.Add(r);
-            //show_text.Document.Blocks.Clear();
-            show_text.Document.Blocks.Add(para);
+            txt += '\r';
+            txt += '\n';
+            show_text.Text+=txt;
         }
 
         private void Page_Loaded(object sender, EventArgs e)
@@ -263,7 +256,7 @@ namespace ocean.UI
 
         private void mySerialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
-            
+            Thread.Sleep(99);
             int n = CommonRes.mySerialPort.BytesToRead;
             byte[] buf = new byte[n];
             CommonRes.mySerialPort.Read(buf, 0, n);
@@ -281,13 +274,9 @@ namespace ocean.UI
                 }
                 txt += ' ';
             }
-            //txt += '\r';
-            //txt += '\n';
-            Run r = new Run(txt);
-            Paragraph para = new Paragraph();
-            para.Inlines.Add(r);
-            //show_text.Document.Blocks.Clear();
-            //show_text.Document.Blocks.Add(para);
+            txt += '\r';
+            txt += '\n';
+            output(txt);
         }
 
 
@@ -430,6 +419,17 @@ namespace ocean.UI
                 case 1: Protocol_num = 1; break;
                 default: Protocol_num = 0; break;
             }
+        }
+
+        private delegate void outputDelegate(string para);
+        private void output(string para)
+        {
+            this.show_text.Dispatcher.Invoke(new outputDelegate(outputAction), para);
+        }
+        private void outputAction(string para)
+        {
+            
+            show_text.Text+=para;
         }
     }
 }

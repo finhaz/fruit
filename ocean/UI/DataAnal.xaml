@@ -48,14 +48,14 @@
 
 
             </Grid>
-            
+
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="20*"/>
                 </Grid.RowDefinitions>
-                    <TabControl>
+                <TabControl>
                     <TabItem Header="运行参数" >
                         <DataGrid x:Name="datashow" 
                                   CellEditEnding="datashow_CellEditEnding" 
@@ -105,14 +105,9 @@
                         </DataGrid>
                     </TabItem>
                 </TabControl>
-                
-                <RichTextBox Name="show_text" Grid.Row="2" HorizontalAlignment="Left">
-                    <FlowDocument>
-                        <Paragraph>
-                            <Run Text="{Binding ElementName=listofmachines, Path=SelectedItem.MachineInfo.Description}"/>
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
+               
+                <TextBox TextWrapping="Wrap" Name="show_text" Grid.Row="2" Margin="3,0,0,0" AcceptsReturn="True" Grid.RowSpan="2"></TextBox>
+
             </Grid>
 
         </Grid>
