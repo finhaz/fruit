@@ -92,6 +92,8 @@ namespace fruit
             Binding bind2 = new Binding("Text", model, "Name");
             richTextBox1.DataBindings.Add(bind2);
 
+            serialPort1.DataReceived += new SerialDataReceivedEventHandler(this.SerialPort1_DataReceived);
+
             //基本存储、参数设置初始化
             try
             {
@@ -181,6 +183,11 @@ namespace fruit
             }
 
 
+        }
+
+        private void SerialPort1_DataReceived1(object sender, SerialDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -45,12 +45,17 @@
                     <ComboBoxItem >FE协议</ComboBoxItem>
                     <ComboBoxItem IsSelected="True">Modbus协议</ComboBoxItem>
                 </ComboBox>
-                <RichTextBox Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Left"></RichTextBox>
+
 
             </Grid>
+            
             <Grid Grid.Column="2">
-
-                <TabControl>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="20*"/>
+                </Grid.RowDefinitions>
+                    <TabControl>
                     <TabItem Header="运行参数" >
                         <DataGrid x:Name="datashow" 
                                   CellEditEnding="datashow_CellEditEnding" 
@@ -100,7 +105,14 @@
                         </DataGrid>
                     </TabItem>
                 </TabControl>
-
+                
+                <RichTextBox Name="show_text" Grid.Row="2" HorizontalAlignment="Left">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="{Binding ElementName=listofmachines, Path=SelectedItem.MachineInfo.Description}"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
             </Grid>
 
         </Grid>

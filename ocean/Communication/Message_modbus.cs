@@ -9,7 +9,7 @@ using System.IO.Ports;
 //地址 功能码	数据	CRC校验
 //1 byte	1 byte	N bytes	2 bytes
 
-namespace fruit
+namespace ocean
 {
     public class Message_modbus//计划设计modbus协议版本
     {
