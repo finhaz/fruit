@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -26,7 +28,7 @@ namespace ocean.UI
         public DataTable dtset { get; set; }
         public DataTable dtfactor { get; set; }
         int select_index;
-       // DataGridTemplateColumn col1 = new DataGridTemplateColumn();
+        // DataGridTemplateColumn col1 = new DataGridTemplateColumn();
 
         public DataAnal()
         {
@@ -152,11 +154,13 @@ namespace ocean.UI
 
         }
 
-
         private void dataset_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            select_index = datashow.SelectedIndex;
-            //datashow.Columns.Remove(col1);
+            //读取选中行
+            var x = dataset.SelectedIndex;
+            string y = dtset.Rows[0][0].ToString();
+            int z=Convert.ToInt32(y);
+            select_index  = x+z;
         }
 
 
@@ -165,6 +169,7 @@ namespace ocean.UI
             DB_Access.UpdateDBTable(dtset, "PARAMETER_SET");
             //dataset.Columns.Remove(col1);
         }
+
 
         private void dataset_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -184,6 +189,8 @@ namespace ocean.UI
             col1.CellTemplate = cellTemplate1;
             dataset.Columns.Add(col1);
             */
+
+
         }
 
 
