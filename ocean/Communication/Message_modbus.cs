@@ -106,7 +106,7 @@ namespace ocean
             UInt16 ccitt16 = 0xA001;
             UInt16 crc = 0xFFFF;
 
-            for (int j= StartIndex; j<=len ; j++)
+            for (int j= StartIndex; j<len ; j++)
             {
                 crc ^= data[j];
                 for (int i = 0; i < 8; i++)
