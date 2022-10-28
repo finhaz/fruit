@@ -257,7 +257,7 @@ namespace ocean.UI
 
             InitTimer();
             CommonRes.mySerialPort.DataReceived += new SerialDataReceivedEventHandler(this.mySerialPort_DataReceived);
-            DB_Com.runnum = 10;
+            DB_Com.runnum = dtrun.Rows.Count;
         }
 
         private void mySerialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -511,19 +511,10 @@ namespace ocean.UI
         }
 
 
-        private void MButton_Click(object sender, RoutedEventArgs e)
-        {
-            DB_Access.UpdateDBTable(dtrun, "PARAMETER_RUN");
-            //datashow.Columns.Remove(col1);
-        }
-
-
-
-
         private void datashow_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             newValue = (e.EditingElement as TextBox).Text;
-            
+            DB_Com.runnum=dtrun.Rows.Count;
         }
 
         private void dataset_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
