@@ -5,15 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace SomeNameSpace
 {
-    class Program
+    class SB_Msqlite
     {
-        static void Main(string[] args)
-        {
-            string dbfile = "Data Source=test.db";
-            create_table(dbfile);
-        }
+        public static string dbfile = "Data Source=test.db";
+        
 
         static void create_table(string dbfile)
         {
