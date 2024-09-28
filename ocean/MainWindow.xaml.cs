@@ -42,13 +42,13 @@ namespace ocean
             this.Loaded += (sender, args) => this.navigationServiceEx.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
 
 
-            //CommonRes.dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
-            //CommonRes.dt2 = DB_Access.GetDBTable("PARAMETER_SET");
-            //CommonRes.dt3 = DB_Access.GetDBTable("PARAMETER_FACTOR");
+            CommonRes.dt1 = DB_Access.GetDBTable("PARAMETER_RUN");
+            CommonRes.dt2 = DB_Access.GetDBTable("PARAMETER_SET");
+            CommonRes.dt3 = DB_Access.GetDBTable("PARAMETER_FACTOR");
 
-            CommonRes.dt1 = DB_sqlite.GetDBTable("PARAMETER_RUN");
-            CommonRes.dt2 = DB_sqlite.GetDBTable("PARAMETER_SET");
-            CommonRes.dt3 = DB_sqlite.GetDBTable("PARAMETER_FACTOR");
+            //CommonRes.dt1 = DB_sqlite.GetDBTable("PARAMETER_RUN");
+            //CommonRes.dt2 = DB_sqlite.GetDBTable("PARAMETER_SET");
+            //CommonRes.dt3 = DB_sqlite.GetDBTable("PARAMETER_FACTOR");
 
         }
 
@@ -96,14 +96,14 @@ namespace ocean
         {
             MessageBox.Show("数据将保存！");
 
-            //DB_Access.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
-            //DB_Access.UpdateDBTable(CommonRes.dt2, "PARAMETER_SET");
-            //DB_Access.UpdateDBTable(CommonRes.dt3, "PARAMETER_FACTOR");
+            DB_Access.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
+            DB_Access.UpdateDBTable(CommonRes.dt2, "PARAMETER_SET");
+            DB_Access.UpdateDBTable(CommonRes.dt3, "PARAMETER_FACTOR");
 
 
-            DB_sqlite.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
-            DB_sqlite.UpdateDBTable(CommonRes.dt2, "PARAMETER_SET");
-            DB_sqlite.UpdateDBTable(CommonRes.dt3, "PARAMETER_FACTOR");
+            //DB_sqlite.UpdateDBTable(CommonRes.dt1, "PARAMETER_RUN");
+            //DB_sqlite.UpdateDBTable(CommonRes.dt2, "PARAMETER_SET");
+            //DB_sqlite.UpdateDBTable(CommonRes.dt3, "PARAMETER_FACTOR");
         }
     }
 }
